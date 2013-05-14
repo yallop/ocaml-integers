@@ -50,4 +50,9 @@ extern value integers_uint_size (value _);
 extern value integers_ulong_size (value _);
 extern value integers_ulonglong_size (value _);
 
-#endif /* INTEGERS_UNMSIGNED_STUBS_H */
+#define Uint8_val(V) (*((uint8_t *) Data_custom_val(V)))
+#define Uint16_val(V) (*((uint16_t *) Data_custom_val(V)))
+#define Uint32_val(V) (*((uint32_t *) Data_custom_val(V)))
+#define Uint64_val(V) (*((uint64_t *) Data_custom_val(V)))
+
+#endif /* INTEGERS_UNSIGNED_STUBS_H */
