@@ -18,7 +18,7 @@
   /* OP : t -> t -> t */                                                     \
   value integers_uint ## SIZE ## _ ## NAME(value a, value b)                 \
   {                                                                          \
-    return caml_copy_uint ## SIZE(Uint_custom_val(uint ## SIZE ## _t, a)     \
+    return integers_copy_uint ## SIZE(Uint_custom_val(uint ## SIZE ## _t, a) \
                                OP Uint_custom_val(uint ## SIZE ## _t, b));   \
   }
 
@@ -59,7 +59,7 @@
     custom_compare_ext_default                                               \
   };                                                                         \
                                                                              \
-  value caml_copy_uint ## BITS(TYPE(BITS) u)                                 \
+  value integers_copy_uint ## BITS(TYPE(BITS) u)                             \
   {                                                                          \
     value res = caml_alloc_custom(&caml_uint ## BITS ## _ops, 4, 0, 1);      \
     Uint_custom_val(TYPE(BITS), res) = u;                                    \
@@ -79,7 +79,7 @@
   /* of_int : int -> t */                                                    \
   value integers_uint ## BITS ## _of_int(value a)                            \
   {                                                                          \
-    return caml_copy_uint ## BITS (Int_val(a));                              \
+    return integers_copy_uint ## BITS (Int_val(a));                          \
   }                                                                          \
                                                                              \
   /* to_int : t -> int */                                                    \
@@ -95,7 +95,7 @@
     if (sscanf(String_val(a), "%" SCNu ## BITS , &u) != 1)                   \
       caml_failwith("int_of_string");                                        \
     else                                                                     \
-      return caml_copy_uint ## BITS (u);                                     \
+      return integers_copy_uint ## BITS (u);                                 \
   }                                                                          \
                                                                              \
   /* to_string : t -> string */                                              \
@@ -111,7 +111,7 @@
   /* max : unit -> t */                                                      \
   value integers_uint ## BITS ## _max(value a)                               \
   {                                                                          \
-    return caml_copy_uint ## BITS ((TYPE(BITS))(-1));                        \
+    return integers_copy_uint ## BITS ((TYPE(BITS))(-1));                    \
   }                                                                          \
 
 
