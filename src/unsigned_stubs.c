@@ -80,36 +80,36 @@
   UINT_PRIMOP(logxor, BITS,  ^)                                              \
                                                                              \
   /* div : t -> t -> t */                                                    \
-  value ctypes_uint ## BITS ## _div(value n_, value d_)                      \
+  value integers_uint ## BITS ## _div(value n_, value d_)                    \
   {                                                                          \
     TYPE(BITS) n = Uint_custom_val(TYPE(BITS), n_);                          \
     TYPE(BITS) d = Uint_custom_val(TYPE(BITS), d_);                          \
     if (d == (TYPE(BITS)) 0)                                                 \
         caml_raise_zero_divide();                                            \
-    return ctypes_copy_uint ## BITS (n / d);                                 \
+    return integers_copy_uint ## BITS (n / d);                               \
   }                                                                          \
                                                                              \
   /* rem : t -> t -> t */                                                    \
-  value ctypes_uint ## BITS ## _rem(value n_, value d_)                      \
+  value integers_uint ## BITS ## _rem(value n_, value d_)                    \
   {                                                                          \
     TYPE(BITS) n = Uint_custom_val(TYPE(BITS), n_);                          \
     TYPE(BITS) d = Uint_custom_val(TYPE(BITS), d_);                          \
     if (d == (TYPE(BITS)) 0)                                                 \
         caml_raise_zero_divide();                                            \
-    return ctypes_copy_uint ## BITS (n % d);                                 \
+    return integers_copy_uint ## BITS (n % d);                               \
   }                                                                          \
                                                                              \
   /* shift_left : t -> int -> t */                                           \
-  value ctypes_uint ## BITS ## _shift_left(value a, value b)                 \
+  value integers_uint ## BITS ## _shift_left(value a, value b)               \
   {                                                                          \
-    return ctypes_copy_uint ## BITS(Uint_custom_val(uint ## BITS ## _t, a)   \
+    return integers_copy_uint ## BITS(Uint_custom_val(uint ## BITS ## _t, a) \
                                     << Int_val(b));                          \
   }                                                                          \
                                                                              \
   /* shift_right : t -> int -> t */                                          \
-  value ctypes_uint ## BITS ## _shift_right(value a, value b)                \
+  value integers_uint ## BITS ## _shift_right(value a, value b)              \
   {                                                                          \
-    return ctypes_copy_uint ## BITS(Uint_custom_val(uint ## BITS ## _t, a)   \
+    return integers_copy_uint ## BITS(Uint_custom_val(uint ## BITS ## _t, a) \
                                     >> Int_val(b));                          \
   }                                                                          \
                                                                              \
@@ -162,3 +162,8 @@ value integers_ushort_size (value _) { return Val_int(sizeof (unsigned short)); 
 value integers_uint_size (value _) { return Val_int(sizeof (unsigned int)); }
 value integers_ulong_size (value _) { return Val_int(sizeof (unsigned long)); }
 value integers_ulonglong_size (value _) { return Val_int(sizeof (unsigned long long)); }
+value integers_uint32_of_int32 (value i) { return integers_copy_uint32(Int32_val(i)); }
+value integers_int32_of_uint32 (value u) { return caml_copy_int32(Uint_custom_val(uint32_t, u)); }
+value integers_uint64_of_int64 (value i) { return integers_copy_uint64(Int64_val(i)); }
+value integers_int64_of_uint64 (value u) { return caml_copy_int64(Uint_custom_val(uint64_t, u)); }
+
