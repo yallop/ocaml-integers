@@ -24,8 +24,8 @@
   /* OP : t -> t -> t */                                                     \
   value integers_uint ## SIZE ## _ ## NAME(value a, value b)                 \
   {                                                                          \
-    return integers_copy_uint ## SIZE(Uint_custom_val(uint ## SIZE ## _t, a) \
-                               OP Uint_custom_val(uint ## SIZE ## _t, b));   \
+    return integers_copy_uint ## SIZE(Uint_custom_val(TYPE(SIZE), a)         \
+                                 OP Uint_custom_val(TYPE(SIZE), b));         \
   }
 
 #define UINT_DEFS(BITS, BYTES)                                               \
@@ -101,14 +101,14 @@
   /* shift_left : t -> int -> t */                                           \
   value integers_uint ## BITS ## _shift_left(value a, value b)               \
   {                                                                          \
-    return integers_copy_uint ## BITS(Uint_custom_val(uint ## BITS ## _t, a) \
+    return integers_copy_uint ## BITS(Uint_custom_val(TYPE(BITS), a)         \
                                     << Int_val(b));                          \
   }                                                                          \
                                                                              \
   /* shift_right : t -> int -> t */                                          \
   value integers_uint ## BITS ## _shift_right(value a, value b)              \
   {                                                                          \
-    return integers_copy_uint ## BITS(Uint_custom_val(uint ## BITS ## _t, a) \
+    return integers_copy_uint ## BITS(Uint_custom_val(TYPE(BITS), a)         \
                                     >> Int_val(b));                          \
   }                                                                          \
                                                                              \
