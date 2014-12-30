@@ -39,7 +39,7 @@
   /* to_int : t -> int */                                                   \
   extern value integers_uint ## BITS ## _to_int(value a);                   \
   /* of_string : string -> t */                                             \
-  extern value integers_uint ## BITS ## _of_string(value a, value b);       \
+  extern value integers_uint ## BITS ## _of_string(value a);                \
   /* to_string : t -> string */                                             \
   extern value integers_uint ## BITS ## _to_string(value a);                \
   /* max : unit -> t */                                                     \
