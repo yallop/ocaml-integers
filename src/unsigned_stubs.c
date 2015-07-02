@@ -171,4 +171,6 @@ value integers_uint32_of_int32 (value i) { return integers_copy_uint32(Int32_val
 value integers_int32_of_uint32 (value u) { return caml_copy_int32(Uint_custom_val(uint32_t, u)); }
 value integers_uint64_of_int64 (value i) { return integers_copy_uint64(Int64_val(i)); }
 value integers_int64_of_uint64 (value u) { return caml_copy_int64(Uint_custom_val(uint64_t, u)); }
+value integers_uintptr_t_size (value _) { return Val_int(sizeof (uintptr_t)); }
+value integers_intptr_t_size (value _) { return Val_int(sizeof (intptr_t)); }
 
