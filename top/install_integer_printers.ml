@@ -1,6 +1,7 @@
 (* Adapted from Anil Madhavapeddy's ocaml-uri package. *)
 
-let printers = [ "Integer_printers.format_long";
+let printers = [ "Integer_printers.format_sint";
+                 "Integer_printers.format_long";
                  "Integer_printers.format_llong";
                  "Integer_printers.format_uchar";
                  "Integer_printers.format_uint8";

@@ -5,6 +5,8 @@
  * See the file LICENSE for details.
  *)
 
+let format_sint fmt v =
+  Format.fprintf fmt "<sint %s>" (Signed.SInt.to_string v)
 let format_long fmt v =
   Format.fprintf fmt "<long %s>" (Signed.Long.to_string v)
 let format_llong fmt v =
