@@ -65,8 +65,8 @@ extern value integers_uint_size (value _);
 extern value integers_ulong_size (value _);
 extern value integers_ulonglong_size (value _);
 
-#define integers_copy_uint8(t) ((Val_int((uint8_t)t)))
-#define integers_copy_uint16(t) ((Val_int((uint16_t)t)))
+#define Integers_val_uint8(t) ((Val_int((uint8_t)t)))
+#define Integers_val_uint16(t) ((Val_int((uint16_t)t)))
 
 #define Uint8_val(V) ((uint8_t)(Int_val(V)))
 #define Uint16_val(V) ((uint16_t)(Int_val(V)))
