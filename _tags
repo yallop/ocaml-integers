@@ -3,7 +3,7 @@ true: principal, bin_annot, safe_string, strict_sequence, debug
 
 "src": include
 
-<src/*.c>: use_unsigned_headers
+<src/*.c>: use_integer_headers
 <src/*.{cma,cmxa,cmxs}>: use_integer_stubs
 
 <top/*.*>: package(compiler-libs.toplevel)

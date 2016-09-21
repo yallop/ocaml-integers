@@ -2,7 +2,7 @@ open Ocamlbuild_plugin
 
 let () = dispatch begin function
     | After_rules ->
-      dep ["c"; "compile"; "use_unsigned_headers"] ["src/unsigned_stubs.h"];
+      dep ["c"; "compile"; "use_integer_headers"] ["src/ocaml_integers.h"];
 
       flag ["use_integer_stubs"] &
         S[A"-I"; A"src"];

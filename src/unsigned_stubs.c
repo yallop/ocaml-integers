@@ -20,7 +20,7 @@
 #include <limits.h>
 #include <stdio.h>
 
-#include "unsigned_stubs.h"
+#include "ocaml_integers.h"
 
 #define Uint_custom_val(TYPE, V) Uint_custom_val_(TYPE, V)
 #define Uint_custom_val_(TYPE, V) (TYPE ## _custom_val(TYPE, V))
