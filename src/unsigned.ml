@@ -92,7 +92,7 @@ struct
 end
 
 
-module UInt8 : S =
+module UInt8 : S with type t = private int =
 struct
   module B =
   struct
@@ -124,7 +124,7 @@ struct
 end
 
 
-module UInt16 : S =
+module UInt16 : S with type t = private int =
 struct
   module B =
   struct
@@ -241,7 +241,7 @@ external ulong_size : unit -> int = "integers_ulong_size"
 external ulonglong_size : unit -> int = "integers_ulonglong_size"
 
 module Size_t : S = (val pick ~size:(size_t_size ()))
-module UChar : S = UInt8
+module UChar = UInt8
 module UShort : S = (val pick ~size:(ushort_size ()))
 module UInt : S = (val pick ~size:(uint_size ()))
 module ULong : S = (val pick ~size:(ulong_size ()))

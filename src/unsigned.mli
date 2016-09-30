@@ -118,13 +118,13 @@ module type S = sig
 end
 (** Unsigned integer operations. *)
 
-module UChar : S
+module UChar : S with type t = private int
 (** Unsigned char type and operations. *)
 
-module UInt8 : S
+module UInt8 : S with type t = private int
 (** Unsigned 8-bit integer type and operations. *)
 
-module UInt16 : S
+module UInt16 : S with type t = private int
 (** Unsigned 16-bit integer type and operations. *)
 
 module UInt32 : sig
