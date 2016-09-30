@@ -46,6 +46,8 @@ The `ocaml-integers` library provides a number of 8-, 16-, 32- and 64-bit signed
    - : int = 1000
    ```
 
+[![Travis build Status](https://travis-ci.org/ocamllabs/ocaml-integers.svg?branch=master)](https://travis-ci.org/ocamllabs/ocaml-integers) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/4l1vout6fl581hgq?svg=true)](https://ci.appveyor.com/project/yallop/ocaml-integers/branch/master) 
+
 [int32]: http://caml.inria.fr/pub/docs/manual-ocaml/libref/Int32.html
 [int64]: http://caml.inria.fr/pub/docs/manual-ocaml/libref/Int64.html
 [nativeint]: http://caml.inria.fr/pub/docs/manual-ocaml/libref/Nativeint.html
