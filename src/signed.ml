@@ -79,6 +79,8 @@ struct
     let succ = Pervasives.succ
     let pred = Pervasives.pred
     let compare = Pervasives.compare
+    let max = Pervasives.max
+    let min = Pervasives.min
   end
   include Basics
   module Infix = MakeInfix(Basics)
@@ -98,6 +100,8 @@ struct
   let to_nativeint = Nativeint.of_int32
   let of_int64 = Int64.to_int32
   let to_int64 = Int64.of_int32
+  let max = Pervasives.max
+  let min = Pervasives.min
 end
 
 module Int64 = 
@@ -106,6 +110,8 @@ struct
   module Infix = MakeInfix(Int64)
   let of_int64 x = x
   let to_int64 x = x
+  let max = Pervasives.max
+  let min = Pervasives.min
 end
 
 (* C guarantees that sizeof(t) == sizeof(unsigned t) *)

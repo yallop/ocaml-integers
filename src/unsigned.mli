@@ -83,6 +83,12 @@ module type S = sig
   (** The comparison function for unsigned integers, with the same
       specification as {!Pervasives.compare}. *)
 
+  val max : t -> t -> t
+  (** [max x y] is the greater of [x] and [y] *)
+
+  val min : t -> t -> t
+  (** [min x y] is the lesser of [x] and [y] *)
+
   module Infix : sig
     val (+) : t -> t -> t
     (** Addition.  See {!add}. *)
