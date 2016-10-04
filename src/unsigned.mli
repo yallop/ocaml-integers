@@ -192,3 +192,9 @@ type ulong = ULong.t
 
 type ullong = ULLong.t
 (** The unsigned long long integer type. *)
+
+val from_size : bytes:int -> (module S)
+(** [from_size ~bytes] is a module of type S that implements an unsigned type
+    with [bytes] bytes.
+
+    Raise [Invalid_argument] if no suitable type is available. *)

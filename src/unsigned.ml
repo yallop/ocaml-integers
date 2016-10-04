@@ -230,13 +230,14 @@ struct
 end
 
 
-let pick : size:int -> (module S) =
-  fun ~size -> match size with
+let from_size : bytes:int -> (module S) =
+  fun ~bytes -> match bytes with
     | 1 -> (module UInt8)
     | 2 -> (module UInt16)
     | 4 -> (module UInt32)
     | 8 -> (module UInt64)
-    | _ -> assert false
+    | _ -> invalid_arg "Unsigned.from_size"
+
       
 external size_t_size : unit -> int = "integers_size_t_size"
 external ushort_size : unit -> int = "integers_ushort_size"
@@ -244,12 +245,12 @@ external uint_size : unit -> int = "integers_uint_size"
 external ulong_size : unit -> int = "integers_ulong_size"
 external ulonglong_size : unit -> int = "integers_ulonglong_size"
 
-module Size_t : S = (val pick ~size:(size_t_size ()))
+module Size_t : S = (val from_size ~bytes:(size_t_size ()))
 module UChar = UInt8
-module UShort : S = (val pick ~size:(ushort_size ()))
-module UInt : S = (val pick ~size:(uint_size ()))
-module ULong : S = (val pick ~size:(ulong_size ()))
-module ULLong : S = (val pick ~size:(ulonglong_size ()))
+module UShort : S = (val from_size ~bytes:(ushort_size ()))
+module UInt : S = (val from_size ~bytes:(uint_size ()))
+module ULong : S = (val from_size ~bytes:(ulong_size ()))
+module ULLong : S = (val from_size ~bytes:(ulonglong_size ()))
 
 type uchar = UChar.t
 type uint8 = UInt8.t
