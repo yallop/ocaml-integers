@@ -67,8 +67,8 @@ type long = Long.t
 type llong = LLong.t
 (** The signed long long integer type. *)
 
-val from_size : bytes:int -> (module S)
-(** [from_size ~bytes] is a module of type S that implements a signed type
-    with [bytes] bytes.
+val of_byte_size : int -> (module S)
+(** [of_byte_size b] is a module of type S that implements a signed type
+    with [b] bytes.
 
     Raise [Invalid_argument] if no suitable type is available. *)
