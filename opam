@@ -18,3 +18,4 @@ depends: [
   "topkg" {build}
 ]
 
+doc: "http://ocamllabs.github.io/ocaml-integers/"
