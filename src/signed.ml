@@ -119,15 +119,14 @@ external int_size : unit -> int = "integers_uint_size"
 external long_size : unit -> int = "integers_ulong_size"
 external llong_size : unit -> int = "integers_ulonglong_size"
 
-let pick : size:int -> (module S) =
-  fun ~size -> match size with
-    | 4 -> (module Int32)
-    | 8 -> (module Int64)
-    | _ -> assert false
+let of_byte_size : int -> (module S) = function
+  | 4 -> (module Int32)
+  | 8 -> (module Int64)
+  | _ -> invalid_arg "Signed.of_byte_size"
 
-module SInt = (val pick ~size:(int_size ()))
-module Long = (val pick ~size:(long_size ()))
-module LLong = (val pick ~size:(llong_size ()))
+module SInt = (val of_byte_size (int_size ()))
+module Long = (val of_byte_size (long_size ()))
+module LLong = (val of_byte_size (llong_size ()))
 
 type sint = SInt.t
 type long = Long.t
