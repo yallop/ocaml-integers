@@ -214,3 +214,9 @@ value integers_uintptr_t_size (value _) { return Val_int(sizeof (uintptr_t)); }
 value integers_intptr_t_size (value _) { return Val_int(sizeof (intptr_t)); }
 value integers_ptrdiff_t_size (value _) { return Val_int(sizeof (ptrdiff_t)); }
 
+value integers_unsigned_init(value unit)
+{
+  caml_register_custom_operations(&caml_uint32_ops);
+  caml_register_custom_operations(&caml_uint64_ops);
+  return Val_unit;
+}
