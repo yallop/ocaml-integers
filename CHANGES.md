@@ -1,3 +1,7 @@
+v0.2.1 2016-11-14
+-----------------
+* Register the custom deserializers
+
 v0.2.0 2016-10-04
 -----------------
 * Expose from_byte_size functions in Unsigned and Signed
