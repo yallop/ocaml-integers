@@ -1,3 +1,7 @@
+v0.2.2 2016-12-19
+-----------------
+* Fix truncation in UInt64.of_int; remove other uses of `Val_int`/`Int_val`  
+
 v0.2.1 2016-11-14
 -----------------
 * Register the custom deserializers
