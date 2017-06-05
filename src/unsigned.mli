@@ -144,6 +144,15 @@ module UInt64 : sig
   include S
   val of_int64 : int64 -> t
   val to_int64 : t -> int64
+
+  val of_uint32 : UInt32.t -> t
+  (** Convert the given 32-bit unsigned integer to a 64-bit unsigned
+      integer. *)
+
+  val to_uint32 : t -> UInt32.t
+  (** Convert the given 64-bit unsigned integer to a 32-bit unsigned integer.
+      The 64-bit unsigned integer is taken modulo 2{^32}, i.e. the top 32 bits
+      are lost during the conversion.  *)
 end
 (** Unsigned 64-bit integer type and operations. *)
 

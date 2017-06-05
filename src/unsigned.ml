@@ -203,6 +203,8 @@ module UInt64 : sig
   include S
   external of_int64 : int64 -> t = "integers_uint64_of_int64"
   external to_int64 : t -> int64 = "integers_uint64_to_int64"
+  external of_uint32 : UInt32.t -> t = "integers_uint64_of_uint32"
+  external to_uint32 : t -> UInt32.t = "integers_uint32_of_uint64"
 end = 
 struct
   module B =
@@ -222,6 +224,8 @@ struct
     external to_int : t -> int = "integers_uint64_to_int"
     external of_int64 : int64 -> t = "integers_uint64_of_int64"
     external to_int64 : t -> int64 = "integers_uint64_to_int64"
+    external of_uint32 : UInt32.t -> t = "integers_uint64_of_uint32"
+    external to_uint32 : t -> UInt32.t = "integers_uint32_of_uint64"
     external of_string : string -> t = "integers_uint64_of_string"
     external to_string : t -> string = "integers_uint64_to_string"
     external _max_int : unit -> t = "integers_uint64_max"
