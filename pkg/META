@@ -1,8 +1,0 @@
-description = "Signed and unsigned integers of various sizes"
-version = "%%VERSION%%"
-requires = ""
-archive(byte,toploop) = "integers.cma integer_printers.cma"
-archive(byte) = "integers.cma"
-archive(native) = "integers.cmxa"
-plugin(byte) = "integers.cma"
-plugin(native) = "integers.cmxs"

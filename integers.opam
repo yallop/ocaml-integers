@@ -1,5 +1,4 @@
 opam-version: "1.2"
-name: "integers"
 maintainer: "yallop@gmail.com"
 authors: ["Jeremy Yallop"
           "Demi Obenour"
@@ -9,13 +8,13 @@ homepage: "https://github.com/ocamllabs/ocaml-integers"
 bug-reports: "https://github.com/ocamllabs/ocaml-integers/issues"
 dev-repo: "https://github.com/ocamllabs/ocaml-integers.git"
 license: "MIT"
-build:
-[[ "ocaml" "pkg/pkg.ml" "build"
-           "--pinned" "%{pinned}%"]]
-depends: [
-  "ocamlbuild" {build}
-  "ocamlfind" {build}
-  "topkg" {build}
-]
 
-doc: "http://ocamllabs.github.io/ocaml-integers/api.docdir/"
+build: [
+  ["jbuilder" "subst" "-n" name] {pinned}
+  ["jbuilder" "build" "-p" name "-j" jobs]
+]
+build-test: [["jbuilder" "runtest" "-p" name "-j" jobs]]
+
+depends: [
+  "jbuilder" {build}
+]
