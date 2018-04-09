@@ -92,6 +92,9 @@ module type S = sig
   val min : t -> t -> t
   (** [min x y] is the lesser of [x] and [y] *)
 
+  val pp : Format.formatter -> t -> unit
+  (** Output the result of {!to_string} on a formatter. *)
+
   module Infix : sig
     val (+) : t -> t -> t
     (** Addition.  See {!add}. *)

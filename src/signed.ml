@@ -91,6 +91,7 @@ struct
   let of_nativeint = Nativeint.to_int
   let abs = Pervasives.abs
   let neg x = -x
+  let pp fmt n = Format.fprintf fmt "%d" n
 end
 
 module Int32 = 
@@ -104,6 +105,7 @@ struct
   let to_int64 = Int64.of_int32
   let max = Pervasives.max
   let min = Pervasives.min
+  let pp fmt n = Format.fprintf fmt "%ld" n
 end
 
 module Int64 = 
@@ -115,6 +117,7 @@ struct
   let to_int64 x = x
   let max = Pervasives.max
   let min = Pervasives.min
+  let pp fmt n = Format.fprintf fmt "%Ld" n
 end
 
 (* C guarantees that sizeof(t) == sizeof(unsigned t) *)
