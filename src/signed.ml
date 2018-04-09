@@ -79,6 +79,7 @@ struct
     let succ = Pervasives.succ
     let pred = Pervasives.pred
     let compare = Pervasives.compare
+    let equal = Pervasives.(=)
     let max = Pervasives.max
     let min = Pervasives.min
   end
@@ -94,6 +95,7 @@ end
 
 module Int32 = 
 struct
+  let equal (x:int32) (y:int32) = x = y
   include Int32
   module Infix = MakeInfix(Int32)
   let of_nativeint = Nativeint.to_int32
@@ -106,6 +108,7 @@ end
 
 module Int64 = 
 struct
+  let equal (x:int64) (y:int64) = x = y
   include Int64
   module Infix = MakeInfix(Int64)
   let of_int64 x = x
