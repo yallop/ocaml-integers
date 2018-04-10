@@ -83,11 +83,17 @@ module type S = sig
   (** The comparison function for unsigned integers, with the same
       specification as {!Pervasives.compare}. *)
 
+  val equal : t -> t -> bool
+  (** Tests for equality, with the same specification as {!Pervasives.(=)}. *)
+
   val max : t -> t -> t
   (** [max x y] is the greater of [x] and [y] *)
 
   val min : t -> t -> t
   (** [min x y] is the lesser of [x] and [y] *)
+
+  val pp : Format.formatter -> t -> unit
+  (** Output the result of {!to_string} on a formatter. *)
 
   module Infix : sig
     val (+) : t -> t -> t

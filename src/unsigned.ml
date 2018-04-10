@@ -41,8 +41,10 @@ module type Extras = sig
   val succ : t -> t
   val pred : t -> t
   val compare : t -> t -> int
+  val equal : t -> t -> bool
   val max : t -> t -> t
   val min : t -> t -> t
+  val pp : Format.formatter -> t -> unit
 end
 
 
@@ -94,8 +96,10 @@ struct
   let pred n = sub n one
   let lognot n = logxor n max_int
   let compare (x : t) (y : t) = Pervasives.compare x y
+  let equal (x : t) (y : t) = Pervasives.(=) x y
   let max (x : t) (y : t) = Pervasives.max x y
   let min (x : t) (y : t) = Pervasives.min x y
+  let pp fmt x = Format.fprintf fmt "%s" (to_string x)
 end
 
 

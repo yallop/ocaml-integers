@@ -79,6 +79,7 @@ struct
     let succ = Pervasives.succ
     let pred = Pervasives.pred
     let compare = Pervasives.compare
+    let equal = Pervasives.(=)
     let max = Pervasives.max
     let min = Pervasives.min
   end
@@ -90,10 +91,12 @@ struct
   let of_nativeint = Nativeint.to_int
   let abs = Pervasives.abs
   let neg x = -x
+  let pp fmt n = Format.fprintf fmt "%d" n
 end
 
 module Int32 = 
 struct
+  let equal (x:int32) (y:int32) = x = y
   include Int32
   module Infix = MakeInfix(Int32)
   let of_nativeint = Nativeint.to_int32
@@ -102,16 +105,19 @@ struct
   let to_int64 = Int64.of_int32
   let max = Pervasives.max
   let min = Pervasives.min
+  let pp fmt n = Format.fprintf fmt "%ld" n
 end
 
 module Int64 = 
 struct
+  let equal (x:int64) (y:int64) = x = y
   include Int64
   module Infix = MakeInfix(Int64)
   let of_int64 x = x
   let to_int64 x = x
   let max = Pervasives.max
   let min = Pervasives.min
+  let pp fmt n = Format.fprintf fmt "%Ld" n
 end
 
 (* C guarantees that sizeof(t) == sizeof(unsigned t) *)
