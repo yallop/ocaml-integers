@@ -1,4 +1,4 @@
-opam-version: "1.2"
+opam-version: "2.0"
 maintainer: "yallop@gmail.com"
 authors: ["Jeremy Yallop"
           "Demi Obenour"
@@ -6,15 +6,20 @@ authors: ["Jeremy Yallop"
           "Andreas Hauptmann"]
 homepage: "https://github.com/ocamllabs/ocaml-integers"
 bug-reports: "https://github.com/ocamllabs/ocaml-integers/issues"
-dev-repo: "https://github.com/ocamllabs/ocaml-integers.git"
+dev-repo: "git+https://github.com/ocamllabs/ocaml-integers.git"
 license: "MIT"
 
 build: [
   ["dune" "subst"] {pinned}
   ["dune" "build" "-p" name "-j" jobs]
+  ["dune" "runtest" "-p" name "-j" jobs] {with-test}
 ]
-build-test: [["dune" "runtest" "-p" name "-j" jobs]]
 
 depends: [
+  "ocaml" {>= "4.02"}
   "dune" {build}
 ]
+
+synopsis: "Various signed and unsigned integer types for OCaml"
+description: """
+"""
