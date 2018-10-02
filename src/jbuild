@@ -1,8 +1,0 @@
-(jbuild_version 1)
-
-(library
- ((name integers)
-  (public_name integers)
-  (install_c_headers (ocaml_integers))
-  (c_names (unsigned_stubs))
-  (synopsis "Signed and unsigned integers of various sizes")))

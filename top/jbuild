@@ -1,8 +1,0 @@
-(jbuild_version 1)
-
-(library
- ((name integers_top)
-  (public_name integers.top)
-  (wrapped false)
-  (synopsis "toplevel pretty printers")
-  (libraries (integers compiler-libs.toplevel))))
