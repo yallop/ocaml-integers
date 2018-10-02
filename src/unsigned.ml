@@ -107,7 +107,6 @@ module UInt8 : S with type t = private int =
 struct
   module B =
   struct
-    (* Once 4.01 support is dropped all of these should be [@@inline] *)
     type t = int
     let max_int = 255
     let add : t -> t -> t = fun x y -> (x + y) land max_int
@@ -139,7 +138,6 @@ module UInt16 : S with type t = private int =
 struct
   module B =
   struct
-    (* Once 4.01 support is dropped all of these should be [@@inline] *)
     type t = int
     let max_int = 65535
     let add : t -> t -> t = fun x y -> (x + y) land max_int
