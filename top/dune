@@ -4,4 +4,4 @@
  (modes byte)
  (wrapped false)
  (synopsis "toplevel pretty printers")
- (libraries integers compiler-libs.toplevel))
+ (libraries integers compiler-libs))
