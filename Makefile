@@ -1,7 +1,13 @@
-.PHONY: all clean
+.PHONY: all clean test doc
 
 all:
-	ocaml pkg/pkg.ml build
+	dune build
+
+test:
+	dune runtest
+
+doc:
+	dune build @doc
 
 clean:
-	ocaml pkg/pkg.ml clean
+	dune clean
