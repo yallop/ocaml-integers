@@ -1,5 +1,7 @@
 (* Adapted from Anil Madhavapeddy's ocaml-uri package. *)
 
+let _ = Integer_printers.format_sint
+
 let printers = [ "Integer_printers.format_sint";
                  "Integer_printers.format_long";
                  "Integer_printers.format_llong";
