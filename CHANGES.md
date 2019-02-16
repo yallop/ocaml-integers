@@ -1,3 +1,10 @@
+v0.3.0 2019-02-15
+-----------------
+* Drop 4.01 support (@yallop, #23)
+* Add equal and pp to the output signatures (@emillon, #22)
+* Dune port (@rgrinberg, #21)
+* Add UInt64.(of|to)_uint32 (@yallop, #17)
+
 v0.2.2 2016-12-19
 -----------------
 * Fix truncation in UInt64.of_int; remove other uses of `Val_int`/`Int_val`  
