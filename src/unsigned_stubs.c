@@ -37,6 +37,30 @@
                                  OP Uint_custom_val(SIZE, b));             \
   }
 
+#ifdef custom_fixed_length_default
+  static struct custom_operations caml_uint ## BITS ## _ops = {              \
+    "integers:uint" #BITS,                                                   \
+    custom_finalize_default,                                                 \
+    uint ## BITS ## _cmp,                                                    \
+    uint ## BITS ## _hash,                                                   \
+    uint ## BITS ## _serialize,                                              \
+    uint ## BITS ## _deserialize,                                            \
+    custom_compare_ext_default,                                              \
+    custom_fixed_length_default,                                             \
+  };
+#else
+#define UINT_CUSTOM(BITS)                                                    \
+  static struct custom_operations caml_uint ## BITS ## _ops = {              \
+    "integers:uint" #BITS,                                                   \
+    custom_finalize_default,                                                 \
+    uint ## BITS ## _cmp,                                                    \
+    uint ## BITS ## _hash,                                                   \
+    uint ## BITS ## _serialize,                                              \
+    uint ## BITS ## _deserialize,                                            \
+    custom_compare_ext_default,                                              \
+  };
+#endif
+
 #define UINT_DEFS(BITS, BYTES)                                               \
   static int uint ## BITS ## _cmp(value v1, value v2)                        \
   {                                                                          \
@@ -64,15 +88,7 @@
     return BYTES;                                                            \
   }                                                                          \
                                                                              \
-  static struct custom_operations caml_uint ## BITS ## _ops = {              \
-    "integers:uint" #BITS,                                                   \
-    custom_finalize_default,                                                 \
-    uint ## BITS ## _cmp,                                                    \
-    uint ## BITS ## _hash,                                                   \
-    uint ## BITS ## _serialize,                                              \
-    uint ## BITS ## _deserialize,                                            \
-    custom_compare_ext_default                                               \
-  };                                                                         \
+  UINT_CUSTOM(BITS)                                                          \
                                                                              \
   value integers_copy_uint ## BITS(TYPE(BITS) u)                             \
   {                                                                          \
@@ -213,8 +229,6 @@ value integers_int32_of_uint32 (value u) { return caml_copy_int32(Uint_custom_va
 value integers_uintptr_t_size (value _) { return Val_long(sizeof (uintptr_t)); }
 value integers_intptr_t_size (value _) { return Val_long(sizeof (intptr_t)); }
 value integers_ptrdiff_t_size (value _) { return Val_long(sizeof (ptrdiff_t)); }
-value integers_uint32_of_uint64 (value u) { return integers_copy_uint32(Uint_custom_val(64,u)); }
-value integers_uint64_of_uint32 (value u) { return integers_copy_uint64(Uint_custom_val(32,u)); }
 
 value integers_unsigned_init(value unit)
 {
