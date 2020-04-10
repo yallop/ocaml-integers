@@ -5,6 +5,8 @@
  * See the file LICENSE for details.
  *)
 
+module Pervasives = Pervasives [@@ocaml.warning "-3"]
+
 external init : unit -> unit = "integers_unsigned_init"
 let () = init ()
 

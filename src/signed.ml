@@ -5,6 +5,8 @@
  * See the file LICENSE for details.
  *)
 
+module Pervasives = Pervasives [@@ocaml.warning "-3"]
+
 module type S = sig
   include Unsigned.S
 
