@@ -98,7 +98,8 @@ end
 
 module Int32 = 
 struct
-  let equal (x:int32) (y:int32) = x = y
+  (* Int32.equal was introduced in OCaml 4.03.0 *)
+  let equal (x:int32) (y:int32) = x = y [@@ocaml.warning "-32"]
   include Int32
   module Infix = MakeInfix(Int32)
   let of_nativeint = Nativeint.to_int32
@@ -112,7 +113,8 @@ end
 
 module Int64 = 
 struct
-  let equal (x:int64) (y:int64) = x = y
+  (* Int64.equal was introduced in OCaml 4.03.0 *)
+  let equal (x:int64) (y:int64) = x = y [@@ocaml.warning "-32"]
   include Int64
   module Infix = MakeInfix(Int64)
   let of_int64 x = x
