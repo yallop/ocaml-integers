@@ -9,6 +9,9 @@ env:
   - OCAML_VERSION=4.05
   - OCAML_VERSION=4.06
   - OCAML_VERSION=4.07
+  - OCAML_VERSION=4.08
+  - OCAML_VERSION=4.09
+  - OCAML_VERSION=4.10
 os:
   - linux
   - osx
@@ -24,3 +27,9 @@ matrix:
       env: OCAML_VERSION=4.05
     - os: osx
       env: OCAML_VERSION=4.06
+    - os: osx
+      env: OCAML_VERSION=4.07
+    - os: osx
+      env: OCAML_VERSION=4.08
+    - os: osx
+      env: OCAML_VERSION=4.09
