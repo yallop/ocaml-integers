@@ -7,7 +7,7 @@
 
 (** Types and operations for unsigned integers. *)
 
-module type S = sig
+module type Operations = sig
   type t
 
   val add : t -> t -> t
@@ -94,41 +94,50 @@ module type S = sig
 
   val pp : Format.formatter -> t -> unit
   (** Output the result of {!to_string} on a formatter. *)
-
-  module Infix : sig
-    val (+) : t -> t -> t
-    (** Addition.  See {!add}. *)
-
-    val (-) : t -> t -> t
-    (** Subtraction.  See {!sub}.*)
-
-    val ( * ) : t -> t -> t
-    (** Multiplication.  See {!mul}.*)
-
-    val (/) : t -> t -> t
-    (** Division.  See {!div}.*)
-
-    val (mod) : t -> t -> t
-    (** Integer remainder.  See {!rem}. *)
-
-    val (land) : t -> t -> t
-    (** Bitwise logical and.  See {!logand}. *)
-
-    val (lor) : t -> t -> t
-    (** Bitwise logical or.  See {!logor}. *)
-
-    val (lxor) : t -> t -> t
-    (** Bitwise logical exclusive or.  See {!logxor}. *)
-
-    val (lsl) : t -> int -> t
-    (** [x lsl y] shifts [x] to the left by [y] bits.  See {!shift_left}. *)
-
-    val (lsr) : t -> int -> t
-    (** [x lsr y] shifts [x] to the right by [y] bits.  See {!shift_right}. *)
-  end
-(** Infix names for the unsigned integer operations. *)
 end
 (** Unsigned integer operations. *)
+
+module type Infixes = sig
+  type t
+
+  val (+) : t -> t -> t
+  (** Addition.  See {!add}. *)
+
+  val (-) : t -> t -> t
+  (** Subtraction.  See {!sub}.*)
+
+  val ( * ) : t -> t -> t
+  (** Multiplication.  See {!mul}.*)
+
+  val (/) : t -> t -> t
+  (** Division.  See {!div}.*)
+
+  val (mod) : t -> t -> t
+  (** Integer remainder.  See {!rem}. *)
+
+  val (land) : t -> t -> t
+  (** Bitwise logical and.  See {!logand}. *)
+
+  val (lor) : t -> t -> t
+  (** Bitwise logical or.  See {!logor}. *)
+
+  val (lxor) : t -> t -> t
+  (** Bitwise logical exclusive or.  See {!logxor}. *)
+
+  val (lsl) : t -> int -> t
+  (** [x lsl y] shifts [x] to the left by [y] bits.  See {!shift_left}. *)
+
+  val (lsr) : t -> int -> t
+  (** [x lsr y] shifts [x] to the right by [y] bits.  See {!shift_right}. *)
+end
+(** Infix names for the unsigned integer operations. *)
+
+module type S = sig
+  include Operations
+
+  module Infix : Infixes with type t := t
+end
+(** Unsigned integer operations and operators. *)
 
 module UChar : S with type t = private int
 (** Unsigned char type and operations. *)
