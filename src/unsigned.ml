@@ -64,12 +64,6 @@ module type Infix = sig
   val (lsr) : t -> int -> t
 end
 
-module type Operations = sig
-  include Basics
-  include Extras with type t := t
-end
-
-module type Infixes = Infix
 
 module type S = sig
   include Basics
