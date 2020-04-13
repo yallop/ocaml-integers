@@ -14,7 +14,7 @@ module type S = sig
     include Unsigned.Infix with type t := t
 
     val (asr) : t -> int -> t
-    (** [x asr y] shifts [x] to the right by [y] bits.  See {!Int32.shift_right}. *)
+    (** [x asr y] shifts [x] to the right by [y] bits.  See {!shift_right}. *)
   end
 
   include Unsigned.S with type t := t
