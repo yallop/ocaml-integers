@@ -7,8 +7,19 @@
 
 module Pervasives = Pervasives [@@ocaml.warning "-3"]
 
+module type Infix = sig
+  type t
+  include Unsigned.Infix with type t := t
+  val (asr) : t -> int -> t
+end
+
 module type S = sig
-  include Unsigned.S
+  type t
+
+  module Infix : Infix with type t := t
+
+  include Unsigned.S with type t := t
+                     with module Infix := Infix
 
   val neg : t -> t
   val abs : t -> t
