@@ -7,15 +7,20 @@
 
 (** Types and operations for signed integers. *)
 
+module type Infix = sig
+  type t
+
+  include Unsigned.Infix with type t := t
+
+  val (asr) : t -> int -> t
+  (** [x asr y] shifts [x] to the right by [y] bits.  See {!shift_right}. *)
+end
+
+
 module type S = sig
   type t
 
-  module Infix : sig
-    include Unsigned.Infix with type t := t
-
-    val (asr) : t -> int -> t
-    (** [x asr y] shifts [x] to the right by [y] bits.  See {!shift_right}. *)
-  end
+  module Infix : Infix with type t := t
 
   include Unsigned.S with type t := t
                      with module Infix := Infix
