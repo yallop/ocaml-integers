@@ -8,7 +8,17 @@
 (** Types and operations for signed integers. *)
 
 module type S = sig
-  include Unsigned.Operations
+  type t
+
+  module Infix : sig
+    include Unsigned.Infix with type t := t
+
+    val (asr) : t -> int -> t
+    (** [x asr y] shifts [x] to the right by [y] bits.  See {!shift_right}. *)
+  end
+
+  include Unsigned.S with type t := t
+                     with module Infix := Infix
 
   val neg : t -> t
   (** Unary negation. *)
@@ -37,13 +47,6 @@ module type S = sig
 
   val to_int64 : t -> int64
   (** Convert the given signed integer to an int64 value. *)
-
-  module Infix : sig
-    include Unsigned.Infixes with type t := t
-
-    val (asr) : t -> int -> t
-    (** [x lsr y] shifts [x] to the right by [y] bits.  See {!shift_right}. *)
-  end
 end
 (** Signed integer operations *)
 
