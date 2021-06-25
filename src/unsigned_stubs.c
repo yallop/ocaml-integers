@@ -49,6 +49,56 @@ static int parse_digit(char c)
                                  OP Uint_custom_val(SIZE, b));             \
   }
 
+#define UINT_OF_STRING(BITS, COPY)                                           \
+  value integers_uint ## BITS ## _of_string(value a)                         \
+  {                                                                          \
+    TYPE(BITS) u, max_prefix;                                                \
+    const char *pos = String_val(a);                                         \
+    int base = 10, d;                                                        \
+                                                                             \
+    /* Strip a leading + sign, if given */                                   \
+    if (*pos == '+') pos++;                                                  \
+    if (*pos == '0') {                                                       \
+      switch (pos[1]) {                                                      \
+        case 'x': case 'X':                                                  \
+          base = 16; pos += 2; break;                                        \
+        case 'o': case 'O':                                                  \
+          base = 8; pos += 2; break;                                         \
+        case 'b': case 'B':                                                  \
+          base = 2; pos += 2; break;                                         \
+        case 'u': case 'U': /* Unsigned prefix. No-op for unsigned types */  \
+          pos += 2; break;                                                   \
+      }                                                                      \
+    }                                                                        \
+                                                                             \
+    max_prefix = ((TYPE(BITS)) 1 << (BITS - 1)) / base;                      \
+                                                                             \
+    d = parse_digit(*pos);                                                   \
+    if (d < 0 || d >= base) {                                                \
+      caml_failwith("int_of_string");                                        \
+    }                                                                        \
+    u = (TYPE(BITS)) d;                                                      \
+    pos++;                                                                   \
+                                                                             \
+    for (;; pos++) {                                                         \
+      if (*pos == '_') continue;                                             \
+      d = parse_digit(*pos);                                                 \
+      /* Halt if the digit isn't valid (or this is the string terminator) */ \
+      if (d < 0 || d >= base) break;                                         \
+      /* Check that we can add another digit */                              \
+      if (u > max_prefix) break;                                             \
+      u = d + u * base;                                                      \
+      /* Check for overflow */                                               \
+      if (u < (TYPE(BITS)) d) break;                                         \
+    }                                                                        \
+                                                                             \
+    if (pos != String_val(a) + caml_string_length(a)){                       \
+      caml_failwith("int_of_string");                                        \
+    }                                                                        \
+                                                                             \
+    return COPY(u);                                                          \
+  }                                                                          \
+
 #define UINT_DEFS(BITS, BYTES)                                               \
   static int uint ## BITS ## _cmp(value v1, value v2)                        \
   {                                                                          \
@@ -158,54 +208,7 @@ static int parse_digit(char c)
   }                                                                          \
                                                                              \
   /* of_string : string -> t */                                              \
-  value integers_uint ## BITS ## _of_string(value a)                         \
-  {                                                                          \
-    TYPE(BITS) u, max_prefix;                                                \
-    const char *pos = String_val(a);                                         \
-    int base = 10, d;                                                        \
-                                                                             \
-    /* Strip a leading + sign, if given */                                   \
-    if (*pos == '+') pos++;                                                  \
-    if (*pos == '0') {                                                       \
-      switch (pos[1]) {                                                      \
-        case 'x': case 'X':                                                  \
-          base = 16; pos += 2; break;                                        \
-        case 'o': case 'O':                                                  \
-          base = 8; pos += 2; break;                                         \
-        case 'b': case 'B':                                                  \
-          base = 2; pos += 2; break;                                         \
-        case 'u': case 'U': /* Unsigned prefix. No-op for unsigned types */  \
-          pos += 2; break;                                                   \
-      }                                                                      \
-    }                                                                        \
-                                                                             \
-    max_prefix = ((TYPE(BITS)) 1 << (BITS - 1)) / base;                      \
-                                                                             \
-    d = parse_digit(*pos);                                                   \
-    if (d < 0 || d >= base) {                                                \
-      caml_failwith("int_of_string");                                        \
-    }                                                                        \
-    u = (TYPE(BITS)) d;                                                      \
-    pos++;                                                                   \
-                                                                             \
-    for (;; pos++) {                                                         \
-      if (*pos == '_') continue;                                             \
-      d = parse_digit(*pos);                                                 \
-      /* Halt if the digit isn't valid (or this is the string terminator) */ \
-      if (d < 0 || d >= base) break;                                         \
-      /* Check that we can add another digit */                              \
-      if (u > max_prefix) break;                                             \
-      u = d + u * base;                                                      \
-      /* Check for overflow */                                               \
-      if (u < (TYPE(BITS)) d) break;                                         \
-    }                                                                        \
-                                                                             \
-    if (pos != String_val(a) + caml_string_length(a)){                       \
-      caml_failwith("int_of_string");                                        \
-    }                                                                        \
-                                                                             \
-    return integers_copy_uint ## BITS (u);                                   \
-  }                                                                          \
+  UINT_OF_STRING(BITS, integers_copy_uint ## BITS)                           \
                                                                              \
   /* to_string : t -> string */                                              \
   value integers_uint ## BITS ## _to_string(value a)                         \
@@ -225,54 +228,7 @@ static int parse_digit(char c)
 
 #define UINT_SMALL_DEFS(BITS, BYTES)                                         \
   /* of_string : string -> t */                                              \
-  value integers_uint ## BITS ## _of_string(value a)                         \
-  {                                                                          \
-    TYPE(BITS) u, max_prefix;                                                \
-    const char *pos = String_val(a);                                         \
-    int base = 10, d;                                                        \
-                                                                             \
-    /* Strip a leading + sign, if given */                                   \
-    if (*pos == '+') pos++;                                                  \
-    if (*pos == '0') {                                                       \
-      switch (pos[1]) {                                                      \
-        case 'x': case 'X':                                                  \
-          base = 16; pos += 2; break;                                        \
-        case 'o': case 'O':                                                  \
-          base = 8; pos += 2; break;                                         \
-        case 'b': case 'B':                                                  \
-          base = 2; pos += 2; break;                                         \
-        case 'u': case 'U': /* Unsigned prefix. No-op for unsigned types */  \
-          pos += 2; break;                                                   \
-      }                                                                      \
-    }                                                                        \
-                                                                             \
-    max_prefix = ((TYPE(BITS)) 1 << (BITS - 1)) / base;                      \
-                                                                             \
-    d = parse_digit(*pos);                                                   \
-    if (d < 0 || d >= base) {                                                \
-      caml_failwith("int_of_string");                                        \
-    }                                                                        \
-    u = (TYPE(BITS)) d;                                                      \
-    pos++;                                                                   \
-                                                                             \
-    for (;; pos++) {                                                         \
-      if (*pos == '_') continue;                                             \
-      d = parse_digit(*pos);                                                 \
-      /* Halt if the digit isn't valid (or this is the string terminator) */ \
-      if (d < 0 || d >= base) break;                                         \
-      /* Check that we can add another digit */                              \
-      if (u > max_prefix) break;                                             \
-      u = d + u * base;                                                      \
-      /* Check for overflow */                                               \
-      if (u < (TYPE(BITS)) d) break;                                         \
-    }                                                                        \
-                                                                             \
-    if (pos != String_val(a) + caml_string_length(a)){                       \
-      caml_failwith("int_of_string");                                        \
-    }                                                                        \
-                                                                             \
-    return Integers_val_uint ## BITS(u);                                     \
-  }                                                                          \
+  UINT_OF_STRING(BITS, Integers_val_uint ## BITS)                            \
                                                                              \
   /* to_string : t -> string */                                              \
   value integers_uint ## BITS ## _to_string(value a)                         \
