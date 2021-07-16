@@ -75,7 +75,7 @@ static int parse_digit(char c)
                                                                              \
     d = parse_digit(*pos);                                                   \
     if (d < 0 || d >= base) {                                                \
-      caml_failwith("int_of_string");                                        \
+      caml_failwith("UInt"#BITS".of_string");                                \
     }                                                                        \
     u = (TYPE(BITS)) d;                                                      \
     pos++;                                                                   \
@@ -93,7 +93,7 @@ static int parse_digit(char c)
     }                                                                        \
                                                                              \
     if (pos != String_val(a) + caml_string_length(a)){                       \
-      caml_failwith("int_of_string");                                        \
+      caml_failwith("UInt"#BITS".of_string");                                \
     }                                                                        \
                                                                              \
     return COPY(u);                                                          \
@@ -215,7 +215,17 @@ static int parse_digit(char c)
   {                                                                          \
     char buf[BUF_SIZE(TYPE(BITS))];                                          \
     if (sprintf(buf, "%" PRIu ## BITS , Uint_custom_val(BITS, a)) < 0)       \
-      caml_failwith("string_of_int");                                        \
+      caml_failwith("UInt ## BITS ## .to_string");                           \
+    else                                                                     \
+      return caml_copy_string(buf);                                          \
+  }                                                                          \
+                                                                             \
+  /* to_hexstring : t -> string */                                           \
+  value integers_uint ## BITS ## _to_hexstring(value a)                      \
+  {                                                                          \
+    char buf[BUF_SIZE(TYPE(BITS))];                                          \
+    if (sprintf(buf, "%" PRIx ## BITS , Uint_custom_val(BITS, a)) < 0)       \
+      caml_failwith("UInt ## BITS ## .to_hexstring");                        \
     else                                                                     \
       return caml_copy_string(buf);                                          \
   }                                                                          \
@@ -235,7 +245,17 @@ static int parse_digit(char c)
   {                                                                          \
     char buf[BUF_SIZE(TYPE(BITS))];                                          \
     if (sprintf(buf, "%" PRIu ## BITS , Uint ## BITS ##_val(a)) < 0)         \
-      caml_failwith("string_of_int");                                        \
+      caml_failwith("UInt ## BITS ## .to_string");                           \
+    else                                                                     \
+      return caml_copy_string(buf);                                          \
+  }                                                                          \
+                                                                             \
+  /* to_hexstring : t -> string */                                           \
+  value integers_uint ## BITS ## _to_hexstring(value a)                      \
+  {                                                                          \
+    char buf[BUF_SIZE(TYPE(BITS))];                                          \
+    if (sprintf(buf, "%" PRIx ## BITS , Uint ## BITS ##_val(a)) < 0)         \
+      caml_failwith("UInt ## BITS ## .to_hexstring");                        \
     else                                                                     \
       return caml_copy_string(buf);                                          \
   }                                                                          \

@@ -1,5 +1,6 @@
 (*
  * Copyright (c) 2013 Jeremy Yallop.
+ * Copyright (c) 2021 Nomadic Labs
  *
  * This file is distributed under the terms of the MIT License.
  * See the file LICENSE for details.
@@ -94,11 +95,14 @@ module type S = sig
 
   val of_string : string -> t
   (** Convert the given string to an unsigned integer.  Raise {!Failure}
-      ["int_of_string"] if the given string is not a valid representation of
-      an unsigned integer. *)
+      if the given string is not a valid representation of an unsigned
+      integer. *)
 
   val to_string : t -> string
   (** Return the string representation of its argument. *)
+
+  val to_hexstring : t -> string
+  (** Return the hexadecimal string representation of its argument. *)
 
   val zero : t
   (** The integer 0. *)
@@ -128,8 +132,15 @@ module type S = sig
   val min : t -> t -> t
   (** [min x y] is the lesser of [x] and [y] *)
 
+  val of_string_opt : string -> t option
+  (** Convert the given string to an unsigned integer. Returns [None] if the
+      given string is not a valid representation of an unsigned integer. *)
+
   val pp : Format.formatter -> t -> unit
   (** Output the result of {!to_string} on a formatter. *)
+
+  val pp_hex : Format.formatter -> t -> unit
+  (** Output the result of {!to_hexstring} on a formatter. *)
 
   module Infix : Infix with type t := t
 end

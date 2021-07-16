@@ -1,5 +1,6 @@
 (*
  * Copyright (c) 2013 Jeremy Yallop.
+ * Copyright (c) 2021 Nomadic Labs
  *
  * This file is distributed under the terms of the MIT License.
  * See the file LICENSE for details.
@@ -31,6 +32,7 @@ module type Basics = sig
   val to_int64 : t -> int64
   val of_string : string -> t
   val to_string : t -> string
+  val to_hexstring : t -> string
 end
 
 
@@ -46,7 +48,9 @@ module type Extras = sig
   val equal : t -> t -> bool
   val max : t -> t -> t
   val min : t -> t -> t
+  val of_string_opt : string -> t option
   val pp : Format.formatter -> t -> unit
+  val pp_hex : Format.formatter -> t -> unit
 end
 
 
@@ -101,9 +105,12 @@ struct
   let equal (x : t) (y : t) = Pervasives.(=) x y
   let max (x : t) (y : t) = Pervasives.max x y
   let min (x : t) (y : t) = Pervasives.min x y
+  let of_string_opt (s : string) = try Some (of_string s) with Failure _ -> None
   let pp fmt x = Format.fprintf fmt "%s" (to_string x)
+  let pp_hex fmt x = Format.fprintf fmt "%s" (to_hexstring x)
 end
 
+external format_int : string -> int -> string = "caml_format_int"
 
 module UInt8 : S with type t = private int =
 struct
@@ -129,6 +136,7 @@ struct
     let to_int64 : t -> int64 = fun x -> Int64.of_int (to_int x)
     external of_string : string -> t = "integers_uint8_of_string"
     let to_string : t -> string = string_of_int
+    let to_hexstring : t -> string = format_int "%x"
   end
   include B
   include Extras(B)
@@ -160,6 +168,7 @@ struct
     let to_int64 : t -> int64 = fun x -> to_int x |> Int64.of_int
     external of_string : string -> t = "integers_uint16_of_string"
     let to_string : t -> string = string_of_int
+    let to_hexstring : t -> string = format_int "%x"
   end
   include B
   include Extras(B)
@@ -192,6 +201,7 @@ struct
     external to_int64 : t -> int64 = "integers_uint32_to_int64"
     external of_string : string -> t = "integers_uint32_of_string"
     external to_string : t -> string = "integers_uint32_to_string"
+    external to_hexstring : t -> string = "integers_uint32_to_hexstring"
     external _max_int : unit -> t = "integers_uint32_max"
     let max_int = _max_int ()
   end
@@ -232,6 +242,7 @@ struct
     external to_uint32 : t -> UInt32.t = "integers_uint32_of_uint64"
     external of_string : string -> t = "integers_uint64_of_string"
     external to_string : t -> string = "integers_uint64_to_string"
+    external to_hexstring : t -> string = "integers_uint64_to_hexstring"
     external _max_int : unit -> t = "integers_uint64_max"
     let max_int = _max_int ()
   end
