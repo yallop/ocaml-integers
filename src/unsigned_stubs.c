@@ -71,7 +71,7 @@ static int parse_digit(char c)
       }                                                                      \
     }                                                                        \
                                                                              \
-    max_prefix = ((TYPE(BITS)) 1 << (BITS - 1)) / base;                      \
+    max_prefix = ((TYPE(BITS)) -1) / base;                                   \
                                                                              \
     d = parse_digit(*pos);                                                   \
     if (d < 0 || d >= base) {                                                \
