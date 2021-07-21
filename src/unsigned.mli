@@ -158,14 +158,53 @@ module UInt16 : S with type t = private int
 module UInt32 : sig
   include S
   val of_int32 : int32 -> t
+  (** Convert the given 32-bit signed integer to an unsigned 32-bit integer.
+
+      If the signed integer fits within the unsigned range (in other words, if
+      the signed integer is positive) then the numerical values represented by
+      the signed and unsigned integers are the same.
+
+      Whether the signed integer fits or not, the function [of_int32] is always
+      the inverse of the function {!to_int32}. In other words,
+      [to_int32 (of_int32 x) = x] holds for all [x : int32]. *)
+
   val to_int32 : t -> int32
+  (** Convert the given 32-bit unsigned integer to a signed 32-bit integer.
+
+      If the unsigned integer fits within the signed range (in other words, if
+      the unsigned integer is less than {!Int32.max_int}) then the numerical
+      values represented by unsigned and signed integers are the same.
+
+      Whether the unsigned integer fits or not, the function [to_int32] is
+      always the inverse of the function {!of_int32}. In other words,
+      [of_int32 (to_int32 x) = x] holds for all [x : t]. *)
 end
 (** Unsigned 32-bit integer type and operations. *)
 
 module UInt64 : sig
   include S
+
   val of_int64 : int64 -> t
+  (** Convert the given 64-bit signed integer to an unsigned 64-bit integer.
+
+      If the signed integer fits within the unsigned range (in other words, if
+      the signed integer is positive) then the numerical values represented by
+      the signed and unsigned integers are the same.
+
+      Whether the signed integer fits or not, the function [of_int64] is always
+      the inverse of the function {!to_int64}. In other words,
+      [to_int64 (of_int64 x) = x] holds for all [x : int64]. *)
+
   val to_int64 : t -> int64
+  (** Convert the given 64-bit unsigned integer to a signed 64-bit integer.
+
+      If the unsigned integer fits within the signed range (in other words, if
+      the unsigned integer is less than {!Int64.max_int}) then the numerical
+      values represented by unsigned and signed integers are the same.
+
+      Whether the unsigned integer fits or not, the function [to_int64] is
+      always the inverse of the function {!of_int64}. In other words,
+      [of_int64 (to_int64 x) = x] holds for all [x : t]. *)
 
   val of_uint32 : UInt32.t -> t
   (** Convert the given 32-bit unsigned integer to a 64-bit unsigned
