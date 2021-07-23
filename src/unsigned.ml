@@ -178,9 +178,9 @@ end
 
 module UInt32 : sig
   include S
-  external of_int32 : int32 -> t = "integers_uint32_of_int32"
-  external to_int32 : t -> int32 = "integers_int32_of_uint32"
-end = 
+  val of_int32 : int32 -> t
+  val to_int32 : t -> int32
+end =
 struct
   module B =
   struct
@@ -195,28 +195,42 @@ struct
     external logxor : t -> t -> t = "integers_uint32_logxor"
     external shift_left : t -> int -> t = "integers_uint32_shift_left"
     external shift_right : t -> int -> t = "integers_uint32_shift_right"
-    external of_int : int -> t = "integers_uint32_of_int"
-    external to_int : t -> int = "integers_uint32_to_int"
-    external of_int64 : int64 -> t = "integers_uint32_of_int64"
-    external to_int64 : t -> int64 = "integers_uint32_to_int64"
     external of_string : string -> t = "integers_uint32_of_string"
     external to_string : t -> string = "integers_uint32_to_string"
     external to_hexstring : t -> string = "integers_uint32_to_hexstring"
+    external of_int : int -> t = "integers_uint32_of_int"
+    external to_int : t -> int = "integers_uint32_to_int"
+
+    external of_int32 : int32 -> t = "integers_uint32_of_int32"
+    let half_max_plus_two = of_string "0x80000001"
+    let half_max_minus_one_signed = 0x7fffffffl
+    let of_int32 i32 =
+       if i32 >= 0l then
+          of_int32 i32
+       else
+          add half_max_plus_two (of_int32 (Int32.add i32 half_max_minus_one_signed))
+
+    external to_int32 : t -> int32 = "integers_int32_of_uint32"
+    let max_signed = of_int32 Int32.max_int
+    let to_int32 u32 =
+       if Pervasives.compare u32 max_signed <= 0 then
+          to_int32 u32
+       else
+          Int32.sub (to_int32 (sub u32 half_max_plus_two)) half_max_minus_one_signed
+
+    external of_int64 : int64 -> t = "integers_uint32_of_int64"
+    external to_int64 : t -> int64 = "integers_uint32_to_int64"
     external _max_int : unit -> t = "integers_uint32_max"
     let max_int = _max_int ()
   end
   include B
   include Extras(B)
   module Infix = MakeInfix(B)
-  external of_int32 : int32 -> t = "integers_uint32_of_int32"
-  external to_int32 : t -> int32 = "integers_int32_of_uint32"
 end
 
 
 module UInt64 : sig
   include S
-  external of_int64 : int64 -> t = "integers_uint64_of_int64"
-  external to_int64 : t -> int64 = "integers_uint64_to_int64"
   external of_uint32 : UInt32.t -> t = "integers_uint64_of_uint32"
   external to_uint32 : t -> UInt32.t = "integers_uint32_of_uint64"
 end = 
@@ -236,13 +250,29 @@ struct
     external shift_right : t -> int -> t = "integers_uint64_shift_right"
     external of_int : int -> t = "integers_uint64_of_int"
     external to_int : t -> int = "integers_uint64_to_int"
-    external of_int64 : int64 -> t = "integers_uint64_of_int64"
-    external to_int64 : t -> int64 = "integers_uint64_to_int64"
-    external of_uint32 : UInt32.t -> t = "integers_uint64_of_uint32"
-    external to_uint32 : t -> UInt32.t = "integers_uint32_of_uint64"
     external of_string : string -> t = "integers_uint64_of_string"
     external to_string : t -> string = "integers_uint64_to_string"
     external to_hexstring : t -> string = "integers_uint64_to_hexstring"
+
+    external of_int64 : int64 -> t = "integers_uint64_of_int64"
+    let half_max_plus_two = of_string "0x8000000000000001"
+    let half_max_minus_one_signed = 0x7fffffffffffffffL
+    let of_int64 i64 =
+       if i64 >= 0L then
+          of_int64 i64
+       else
+          add half_max_plus_two (of_int64 (Int64.add i64 half_max_minus_one_signed))
+
+    external to_int64 : t -> int64 = "integers_uint64_to_int64"
+    let max_signed = of_int64 Int64.max_int
+    let to_int64 u64 =
+       if Pervasives.compare u64 max_signed <= 0 then
+          to_int64 u64
+       else
+          Int64.sub (to_int64 (sub u64 half_max_plus_two)) half_max_minus_one_signed
+
+    external of_uint32 : UInt32.t -> t = "integers_uint64_of_uint32"
+    external to_uint32 : t -> UInt32.t = "integers_uint32_of_uint64"
     external _max_int : unit -> t = "integers_uint64_max"
     let max_int = _max_int ()
   end
