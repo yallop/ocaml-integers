@@ -18,6 +18,13 @@ let () =
   ()
 
 let () =
+  assert Signed.Int32.(to_hexstring (of_string "0xDeadBeef") = "deadbeef");
+  assert Signed.Int64.(to_hexstring (of_string "0xDeadBeef") = "deadbeef");
+  assert Unsigned.UInt32.(to_hexstring (of_string "0xDeadBeef") = "deadbeef");
+  assert Unsigned.UInt64.(to_hexstring (of_string "0xDeadBeef") = "deadbeef");
+  ()
+
+let () =
   assert Signed.Int.(to_hexstring (of_string "0x0") = "0");
   assert Signed.Int32.(to_hexstring (of_string "0x0") = "0");
   assert Signed.Int64.(to_hexstring (of_string "0x0") = "0");
