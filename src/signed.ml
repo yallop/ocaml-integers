@@ -1,5 +1,6 @@
 (*
  * Copyright (c) 2013 Jeremy Yallop.
+ * Copyright (c) 2021 Nomadic Labs
  *
  * This file is distributed under the terms of the MIT License.
  * See the file LICENSE for details.
@@ -63,6 +64,8 @@ struct
   let (asr) = shift_right
 end
 
+external format_int : string -> int -> string = "caml_format_int"
+
 module Int =
 struct
   module Basics =
@@ -84,7 +87,9 @@ struct
     let of_int x = x
     let to_int x = x
     let of_string = int_of_string
+    let of_string_opt = int_of_string_opt
     let to_string = string_of_int
+    let to_hexstring = format_int "%x"
     let zero = 0
     let one = 1
     let minus_one = -1
@@ -105,6 +110,7 @@ struct
   let abs = Pervasives.abs
   let neg x = -x
   let pp fmt n = Format.fprintf fmt "%d" n
+  let pp_hex fmt n = Format.fprintf fmt "%x" n
 end
 
 module Int32 = 
@@ -120,6 +126,8 @@ struct
   let max = Pervasives.max
   let min = Pervasives.min
   let pp fmt n = Format.fprintf fmt "%ld" n
+  let pp_hex fmt n = Format.fprintf fmt "%lx" n
+  let to_hexstring n = Format.asprintf "%lx" n
 end
 
 module Int64 = 
@@ -133,6 +141,8 @@ struct
   let max = Pervasives.max
   let min = Pervasives.min
   let pp fmt n = Format.fprintf fmt "%Ld" n
+  let pp_hex fmt n = Format.fprintf fmt "%Lx" n
+  let to_hexstring n = Format.asprintf "%Lx" n
 end
 
 (* C guarantees that sizeof(t) == sizeof(unsigned t) *)
