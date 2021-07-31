@@ -1,3 +1,8 @@
+v0.5.0 2021-07-31
+-----------------
+* Hex printing, and option-based parsing (@raphael-proust, #34)
+* Add stdlib-compatible string parsing (@mrmr1993, #32)
+
 v0.4.0 2020-05-01
 -----------------
 * Expose Signed.S.Infix.(asr) (@dra27, #30)
