@@ -12,21 +12,35 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - macos-latest
-          - ubuntu-latest
-          - windows-latest
-        ocaml-compiler:
-          - 4.12.x
-          - 4.11.x
-          - 4.10.x
-          - 4.09.x
-          - 4.08.x
-          - 4.07.x
-          - 4.06.x
-          - 4.05.x
-          - 4.04.x
-          - 4.03.x
+        include:
+          - os: ubuntu-latest
+            ocaml-compiler: 4.03.x
+          - os: ubuntu-latest
+            ocaml-compiler: 4.04.x
+          - os: ubuntu-latest
+            ocaml-compiler: 4.05.x
+          - os: ubuntu-latest
+            ocaml-compiler: 4.06.x
+          - os: ubuntu-latest
+            ocaml-compiler: 4.07.x
+          - os: ubuntu-latest
+            ocaml-compiler: 4.08.x
+          - os: ubuntu-latest
+            ocaml-compiler: 4.09.x
+          - os: ubuntu-latest
+            ocaml-compiler: 4.10.x
+          - os: ubuntu-latest
+            ocaml-compiler: 4.11.x
+          - os: ubuntu-latest
+            ocaml-compiler: 4.12.x
+          - os: windows-latest
+            ocaml-compiler: 4.11.x
+          - os: windows-latest
+            ocaml-compiler: 4.12.x
+          - os: macos-latest
+            ocaml-compiler: 4.11.1
+          - os: macos-latest
+            ocaml-compiler: 4.12.x
 
     runs-on: ${{ matrix.os }}
 
