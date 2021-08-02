@@ -87,7 +87,7 @@ struct
     let of_int x = x
     let to_int x = x
     let of_string = int_of_string
-    let of_string_opt = int_of_string_opt
+    let of_string_opt s = try Some (of_string s) with Failure _ -> None
     let to_string = string_of_int
     let to_hexstring = format_int "%x"
     let zero = 0
@@ -115,8 +115,11 @@ end
 
 module Int32 = 
 struct
+  [@@@ocaml.warning "-32"]
   (* Int32.equal was introduced in OCaml 4.03.0 *)
-  let equal (x:int32) (y:int32) = x = y [@@ocaml.warning "-32"]
+  let equal  (x:int32) (y:int32) = x = y
+  (* Int32.of_string_opt was introduced in OCaml 4.5b0.0 *)
+  let of_string_opt s = try Some (Int32.of_string s) with Failure _ -> None
   include Int32
   module Infix = MakeInfix(Int32)
   let of_nativeint = Nativeint.to_int32
@@ -132,8 +135,11 @@ end
 
 module Int64 = 
 struct
+  [@@@ocaml.warning "-32"]
   (* Int64.equal was introduced in OCaml 4.03.0 *)
-  let equal (x:int64) (y:int64) = x = y [@@ocaml.warning "-32"]
+  let equal (x:int64) (y:int64) = x = y
+  (* Int32.of_string_opt was introduced in OCaml 4.5b0.0 *)
+  let of_string_opt s = try Some (Int64.of_string s) with Failure _ -> None
   include Int64
   module Infix = MakeInfix(Int64)
   let of_int64 x = x
