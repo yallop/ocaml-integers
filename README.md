@@ -52,6 +52,8 @@ The [`integers_stubs_js`][integers_stubs_js] package provides JavaScript stubs t
 
 [API documentation][doc]
 
+[![Main workflow](https://github.com/ocamllabs/ocaml-integers/actions/workflows/test.yml/badge.svg)](https://github.com/ocamllabs/ocaml-integers/actions/workflows/test.yml)
+
 [int32]: http://caml.inria.fr/pub/docs/manual-ocaml/libref/Int32.html
 [int64]: http://caml.inria.fr/pub/docs/manual-ocaml/libref/Int64.html
 [nativeint]: http://caml.inria.fr/pub/docs/manual-ocaml/libref/Nativeint.html
