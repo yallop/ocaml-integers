@@ -1,3 +1,8 @@
+v0.5.1 2021-08-12
+-----------------
+
+* Restore support for pre-4.05 OCaml versions (@yallop, #37) 
+
 v0.5.0 2021-07-31
 -----------------
 * Hex printing, and option-based parsing (@raphael-proust, #34)
