@@ -1,11 +1,9 @@
-name: Main workflow
+name: Integers
 
 on:
-  pull_request:
-  push:
-  schedule:
-    # Prime the caches every Monday
-    - cron: 0 1 * * MON
+  - pull_request
+  - push
+  - workflow_dispatch
 
 jobs:
   build:
