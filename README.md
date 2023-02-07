@@ -57,6 +57,6 @@ The [`integers_stubs_js`][integers_stubs_js] package provides JavaScript stubs t
 [int32]: http://caml.inria.fr/pub/docs/manual-ocaml/libref/Int32.html
 [int64]: http://caml.inria.fr/pub/docs/manual-ocaml/libref/Int64.html
 [nativeint]: http://caml.inria.fr/pub/docs/manual-ocaml/libref/Nativeint.html
-[doc]: https://ocamllabs.github.io/ocaml-integers/api.docdir/
+[doc]: https://yallop.github.io/ocaml-integers/api.docdir/
 [integers_stubs_js]: https://github.com/o1-labs/integers_stubs_js
 [js_of_ocaml]: https://github.com/ocsigen/js_of_ocaml
