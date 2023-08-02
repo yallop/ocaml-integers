@@ -272,3 +272,18 @@ type ushort = UShort.t
 type uint = UInt.t
 type ulong = ULong.t
 type ullong = ULLong.t
+
+implicit module ImpNum(S : S) : Imp.Num.Num =
+struct
+  type t = S.t
+  open S
+  let (+) = add
+  let (-) = sub
+  let ( * ) = mul
+  let (/) = div
+  let zero = zero
+  (* for unsigned integers this will error or underflow *)
+  let (~-) x = zero - x
+  let one = one
+  let of_int = of_int
+end

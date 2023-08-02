@@ -218,3 +218,5 @@ val of_byte_size : int -> (module S)
     with [b] bytes.
 
     Raise [Invalid_argument] if no suitable type is available. *)
+
+implicit module ImpNum(S : S) : Imp.Num.Num
