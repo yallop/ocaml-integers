@@ -1,4 +1,5 @@
 *~
 _build
+_opam
 integers.install
 .merlin
