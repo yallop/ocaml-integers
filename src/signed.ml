@@ -77,9 +77,7 @@ end
 
 module MakeSmall(S : Small) =
 struct
-  open S
-
-  let fix i = (i lsl (int_size - bits)) asr (int_size - bits)
+  let fix i = (i lsl (int_size - S.bits)) asr (int_size - S.bits)
 
   module Basics =
   struct
@@ -87,9 +85,9 @@ struct
     external to_int : t -> int = "%identity"
     let min_int = S.min ()
     let max_int = S.max ()
-    let of_string = of_string
-    let to_string = to_string
-    let to_hexstring = to_hexstring
+    let of_string = S.of_string
+    let to_string = S.to_string
+    let to_hexstring = S.to_hexstring
 
     let add : t -> t -> t = fun x y -> fix (x + y)
     let sub : t -> t -> t = fun x y -> fix (x - y)
@@ -102,7 +100,7 @@ struct
     let shift_left : t -> int -> t = fun x y -> fix (x lsl y)
     let shift_right : t -> int -> t = ( asr )
     let shift_right_logical : t -> int -> t = fun x y ->
-      ((x lsl (int_size - bits)) lsr y) asr (int_size - bits)
+      ((x lsl (int_size - S.bits)) lsr y) asr (int_size - S.bits)
     let of_int : int -> t = fix
     let of_string_opt s = try Some (of_string s) with Failure _ -> None
     let zero = 0
@@ -118,8 +116,8 @@ struct
   end
   include Basics
   module Infix = MakeInfix(Basics)
-  let pp fmt x = Format.fprintf fmt "%s" (to_string x)
-  let pp_hex fmt x = Format.fprintf fmt "%s" (to_hexstring x)
+  let pp fmt x = Format.fprintf fmt "%s" (S.to_string x)
+  let pp_hex fmt x = Format.fprintf fmt "%s" (S.to_hexstring x)
   let neg = fun x -> fix (- x)
   let abs = fun x -> fix (abs x)
   let of_int64 = fun x -> fix (Int64.to_int x)
