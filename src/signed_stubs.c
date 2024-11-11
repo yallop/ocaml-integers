@@ -53,7 +53,7 @@ INT_SMALL_DECLS(16)
           base = 8; pos += 2; break;                                         \
         case 'b': case 'B':                                                  \
           base = 2; pos += 2; break;                                         \
-        case 'u': case 'U': /* Unsigned prefix. No-op for unsigned types */  \
+        case 'u': case 'U':                                                  \
           signedness = 0; pos += 2; break;                                   \
       }                                                                      \
     }                                                                        \
@@ -108,15 +108,7 @@ INT_SMALL_DECLS(16)
   value integers_int ## BITS ## _to_hexstring(value a)                       \
   {                                                                          \
     char buf[BUF_SIZE(TYPE(BITS))];                                          \
-    char* c = buf;                                                           \
-    /* Use intnat in case d is MIN_INT(BITS) */                              \
-    intnat d = Int_val(a);                                                   \
-    if (d < 0) {                                                             \
-      *c = '-';                                                              \
-      c++;                                                                   \
-      d = (- d);                                                             \
-    }                                                                        \
-    if (sprintf(c, "%" PRIx ## BITS , (TYPE(BITS)) d) < 0)                   \
+    if (sprintf(buf, "%" PRIx ## BITS , Int ## BITS ##_val(a)) < 0)          \
       caml_failwith("Int ## BITS ## .to_hexstring");                         \
     else                                                                     \
       return caml_copy_string(buf);                                          \
