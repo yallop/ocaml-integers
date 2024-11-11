@@ -76,19 +76,6 @@ extern value integers_uint_size (value _);
 extern value integers_ulong_size (value _);
 extern value integers_ulonglong_size (value _);
 
-
-static int parse_digit(char c)
-{
-  if (c >= '0' && c <= '9')
-    return c - '0';
-  else if (c >= 'A' && c <= 'F')
-    return c - 'A' + 10;
-  else if (c >= 'a' && c <= 'f')
-    return c - 'a' + 10;
-  else
-    return -1;
-}
-
 #define Uint_custom_val(SIZE, V) Uint_custom_val_(SIZE, V)
 #define Uint_custom_val_(SIZE, V) \
   (*(uint ## SIZE ## _t *)(Data_custom_val(V)))
