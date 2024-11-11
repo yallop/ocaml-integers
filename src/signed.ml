@@ -234,6 +234,8 @@ external long_size : unit -> int = "integers_ulong_size"
 external llong_size : unit -> int = "integers_ulonglong_size"
 
 let of_byte_size : int -> (module S) = function
+  | 1 -> (module Int8)
+  | 2 -> (module Int16)
   | 4 -> (module Int32)
   | 8 -> (module Int64)
   | _ -> invalid_arg "Signed.of_byte_size"
