@@ -6,6 +6,9 @@
  * See the file LICENSE for details.
  *)
 
+external int_size' : unit -> int = "integers_int_size"
+let int_size = int_size' ()
+
 module type Infix = sig
   type t
   include Unsigned.Infix with type t := t
@@ -62,7 +65,92 @@ struct
   let (asr) = shift_right
 end
 
+module type Small = sig
+  val bits : int
+
+  val min : unit -> int
+  val max : unit -> int
+  val of_string : string -> int
+  val to_string : int -> string
+  val to_hexstring : int -> string
+end
+
+module MakeSmall(S : Small) =
+struct
+  open S
+
+  let fix i = (i lsl (int_size - bits)) asr (int_size - bits)
+
+  module Basics =
+  struct
+    type t = int
+    external to_int : t -> int = "%identity"
+    let min_int = S.min ()
+    let max_int = S.max ()
+    let of_string = of_string
+    let to_string = to_string
+    let to_hexstring = to_hexstring
+
+    let add : t -> t -> t = fun x y -> fix (x + y)
+    let sub : t -> t -> t = fun x y -> fix (x - y)
+    let mul : t -> t -> t = fun x y -> fix (x * y)
+    let div : t -> t -> t = ( / )
+    let rem : t -> t -> t = ( mod )
+    let logand : t -> t -> t = ( land )
+    let logor : t -> t -> t = ( lor )
+    let logxor : t -> t -> t = ( lxor )
+    let shift_left : t -> int -> t = fun x y -> fix (x lsl y)
+    let shift_right : t -> int -> t = ( asr )
+    let shift_right_logical : t -> int -> t = fun x y ->
+      ((x lsl (int_size - bits)) lsr y) asr (int_size - bits)
+    let of_int : int -> t = fix
+    let of_string_opt s = try Some (of_string s) with Failure _ -> None
+    let zero = 0
+    let one = 1
+    let minus_one = -1
+    let lognot = lnot
+    let succ : t -> t = fun x -> fix (Stdlib.succ x)
+    let pred : t -> t = fun x -> fix (Stdlib.pred x)
+    let compare : t -> t -> int = Stdlib.compare
+    let equal : t -> t -> bool = Stdlib.( = )
+    let min : t -> t -> t = Stdlib.min
+    let max : t -> t -> t = Stdlib.max
+  end
+  include Basics
+  module Infix = MakeInfix(Basics)
+  let pp fmt x = Format.fprintf fmt "%s" (to_string x)
+  let pp_hex fmt x = Format.fprintf fmt "%s" (to_hexstring x)
+  let neg = fun x -> fix (- x)
+  let abs = fun x -> fix (abs x)
+  let of_int64 = fun x -> fix (Int64.to_int x)
+  let to_int64 = Int64.of_int
+  let of_nativeint = fun x -> fix (Nativeint.to_int x)
+  let to_nativeint = Nativeint.of_int
+end
+
 external format_int : string -> int -> string = "caml_format_int"
+
+module Int8 = MakeSmall(
+struct
+  let bits = 8
+
+  external of_string : string -> int = "integers_int8_of_string"
+  external to_string : int -> string = "integers_int8_to_string"
+  external to_hexstring : int -> string = "integers_int8_to_hexstring"
+  external max : unit -> int = "integers_int8_max"
+  external min : unit -> int = "integers_int8_min"
+end)
+
+module Int16 = MakeSmall(
+struct
+  let bits = 16
+
+  external of_string : string -> int = "integers_int16_of_string"
+  external to_string : int -> string = "integers_int16_to_string"
+  external to_hexstring : int -> string = "integers_int16_to_hexstring"
+  external max : unit -> int = "integers_int16_max"
+  external min : unit -> int = "integers_int16_min"
+end)
 
 module Int =
 struct
