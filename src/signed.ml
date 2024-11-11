@@ -74,7 +74,8 @@ end
 
 module MakeSmall(S : Small) =
 struct
-  let fix i = (i lsl (Sys.int_size - S.bits)) asr (Sys.int_size - S.bits)
+  let shift = Sys.int_size - S.bits
+  let trunc i = (i lsl shift) asr shift
 
   module Basics =
   struct
@@ -86,26 +87,25 @@ struct
     let to_string = S.to_string
     let to_hexstring = S.to_hexstring
 
-    let add : t -> t -> t = fun x y -> fix (x + y)
-    let sub : t -> t -> t = fun x y -> fix (x - y)
-    let mul : t -> t -> t = fun x y -> fix (x * y)
+    let add : t -> t -> t = fun x y -> trunc (x + y)
+    let sub : t -> t -> t = fun x y -> trunc (x - y)
+    let mul : t -> t -> t = fun x y -> trunc (x * y)
     let div : t -> t -> t = ( / )
     let rem : t -> t -> t = ( mod )
     let logand : t -> t -> t = ( land )
     let logor : t -> t -> t = ( lor )
     let logxor : t -> t -> t = ( lxor )
-    let shift_left : t -> int -> t = fun x y -> fix (x lsl y)
+    let shift_left : t -> int -> t = fun x y -> trunc (x lsl y)
     let shift_right : t -> int -> t = ( asr )
-    let shift_right_logical : t -> int -> t = fun x y ->
-      ((x lsl (Sys.int_size - S.bits)) lsr y) asr (Sys.int_size - S.bits)
-    let of_int : int -> t = fix
+    let shift_right_logical : t -> int -> t = fun x y -> ((x lsl shift) lsr y) asr shift
+    let of_int : int -> t = trunc
     let of_string_opt s = try Some (of_string s) with Failure _ -> None
     let zero = 0
     let one = 1
     let minus_one = -1
     let lognot = lnot
-    let succ : t -> t = fun x -> fix (Stdlib.succ x)
-    let pred : t -> t = fun x -> fix (Stdlib.pred x)
+    let succ : t -> t = fun x -> trunc (Stdlib.succ x)
+    let pred : t -> t = fun x -> trunc (Stdlib.pred x)
     let compare : t -> t -> int = Stdlib.compare
     let equal : t -> t -> bool = Stdlib.( = )
     let min : t -> t -> t = Stdlib.min
@@ -115,11 +115,11 @@ struct
   module Infix = MakeInfix(Basics)
   let pp fmt x = Format.fprintf fmt "%s" (S.to_string x)
   let pp_hex fmt x = Format.fprintf fmt "%s" (S.to_hexstring x)
-  let neg = fun x -> fix (- x)
-  let abs = fun x -> fix (abs x)
-  let of_int64 = fun x -> fix (Int64.to_int x)
+  let neg = fun x -> trunc (- x)
+  let abs = fun x -> trunc (abs x)
+  let of_int64 = fun x -> trunc (Int64.to_int x)
   let to_int64 = Int64.of_int
-  let of_nativeint = fun x -> fix (Nativeint.to_int x)
+  let of_nativeint = fun x -> trunc (Nativeint.to_int x)
   let to_nativeint = Nativeint.of_int
 end
 
