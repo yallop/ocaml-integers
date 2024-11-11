@@ -2,6 +2,7 @@
  (name integers_top)
  (public_name integers.top)
  (modes byte)
+ (modules Integer_printers)
  (wrapped false)
  (synopsis "toplevel pretty printers")
  (libraries integers compiler-libs))

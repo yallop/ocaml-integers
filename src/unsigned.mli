@@ -136,7 +136,7 @@ module type S = sig
   (** Convert the given string to an unsigned integer. Returns [None] if the
       given string is not a valid representation of an unsigned integer. *)
 
-  val pp : Format.formatter -> t -> unit
+  val pp : Format.formatter -> t -> unit [@@ocaml.toplevel_printer]
   (** Output the result of {!to_string} on a formatter. *)
 
   val pp_hex : Format.formatter -> t -> unit
