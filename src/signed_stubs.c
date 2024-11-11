@@ -16,11 +16,6 @@
 #define OCAML_INTEGERS_INTERNAL 1
 #include "ocaml_integers.h"
 
-CAMLprim value integers_int_size(value unit)
-{
-  return Val_long(8 * sizeof(value) - 1) ;
-}
-
 #define INT_SMALL_DECLS(BITS)                                               \
   /* of_string : string -> t */                                             \
   extern value integers_int ## BITS ## _of_string(value a);                 \

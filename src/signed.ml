@@ -6,9 +6,6 @@
  * See the file LICENSE for details.
  *)
 
-external int_size' : unit -> int = "integers_int_size"
-let int_size = int_size' ()
-
 module type Infix = sig
   type t
   include Unsigned.Infix with type t := t
@@ -77,7 +74,7 @@ end
 
 module MakeSmall(S : Small) =
 struct
-  let fix i = (i lsl (int_size - S.bits)) asr (int_size - S.bits)
+  let fix i = (i lsl (Sys.int_size - S.bits)) asr (Sys.int_size - S.bits)
 
   module Basics =
   struct
@@ -100,7 +97,7 @@ struct
     let shift_left : t -> int -> t = fun x y -> fix (x lsl y)
     let shift_right : t -> int -> t = ( asr )
     let shift_right_logical : t -> int -> t = fun x y ->
-      ((x lsl (int_size - S.bits)) lsr y) asr (int_size - S.bits)
+      ((x lsl (Sys.int_size - S.bits)) lsr y) asr (Sys.int_size - S.bits)
     let of_int : int -> t = fix
     let of_string_opt s = try Some (of_string s) with Failure _ -> None
     let zero = 0
@@ -197,11 +194,9 @@ struct
   let pp_hex fmt n = Format.fprintf fmt "%x" n
 end
 
-module Int32 = 
+module Int32 =
 struct
   [@@@ocaml.warning "-32"]
-  (* Int32.equal was introduced in OCaml 4.03.0 *)
-  let equal  (x:int32) (y:int32) = x = y
   (* Int32.of_string_opt was introduced in OCaml 4.5b0.0 *)
   let of_string_opt s = try Some (Int32.of_string s) with Failure _ -> None
   include Int32
@@ -217,11 +212,9 @@ struct
   let to_hexstring n = Format.asprintf "%lx" n
 end
 
-module Int64 = 
+module Int64 =
 struct
   [@@@ocaml.warning "-32"]
-  (* Int64.equal was introduced in OCaml 4.03.0 *)
-  let equal (x:int64) (y:int64) = x = y
   (* Int32.of_string_opt was introduced in OCaml 4.5b0.0 *)
   let of_string_opt s = try Some (Int64.of_string s) with Failure _ -> None
   include Int64
