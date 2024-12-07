@@ -26,7 +26,7 @@ let install_printer printer =
   end
 
 let is_utop () =
-  Option.is_some (Toploop.get_directive "utop_help")
+  Hashtbl.mem Toploop.directive_table "utop_help" [@@ocaml.warning "-3"]
 
 let () =
   (* Preload the toplevel environment and integers library if we are in utop.
