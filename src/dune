@@ -3,6 +3,6 @@
  (public_name integers)
  (wrapped false)
  (install_c_headers ocaml_integers)
- (c_names unsigned_stubs)
+ (c_names unsigned_stubs signed_stubs)
  (libraries stdlib-shims)
  (synopsis "Signed and unsigned integers of various sizes"))

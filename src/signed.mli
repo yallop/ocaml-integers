@@ -56,6 +56,12 @@ module type S = sig
 end
 (** Signed integer operations *)
 
+module Int8 : S with type t = private int
+(** Signed 8-bit integer type and operations. *)
+
+module Int16 : S with type t = private int
+(** Signed 16-bit integer type and operations. *)
+
 module Int : S with type t = int
 (** Signed integer type and operations. *)
 
