@@ -1,51 +1,41 @@
 name: Integers
 
 on:
-  - pull_request
-  - push
-  - workflow_dispatch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   tests:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - os: ubuntu-latest
-            ocaml-compiler: 4.03.x
-          - os: ubuntu-latest
-            ocaml-compiler: 4.04.x
-          - os: ubuntu-latest
-            ocaml-compiler: 4.05.x
-          - os: ubuntu-latest
-            ocaml-compiler: 4.06.x
-          - os: ubuntu-latest
-            ocaml-compiler: 4.07.x
-          - os: ubuntu-latest
-            ocaml-compiler: 4.08.x
-          - os: ubuntu-latest
-            ocaml-compiler: 4.09.x
-          - os: ubuntu-latest
-            ocaml-compiler: 4.10.x
-          - os: ubuntu-latest
-            ocaml-compiler: 4.11.x
-          - os: ubuntu-latest
-            ocaml-compiler: 4.12.x
-          - os: ubuntu-latest
-            ocaml-compiler: 4.13.x
-          - os: windows-latest
-            ocaml-compiler: 4.13.1
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+
+        ocaml-compiler:
+          - 4.08
+          - 4.14
+          - 5.2
+          - 5.3
+
+        exclude:
           - os: macos-latest
-            ocaml-compiler: 4.13.1
+            ocaml-compiler: 4.08
+          - os: windows-latest
+            ocaml-compiler: 4.08
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
 
       - name: Use OCaml ${{ matrix.ocaml-compiler }}
-        uses: ocaml/setup-ocaml@v2
+        uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
 
