@@ -64,12 +64,6 @@ end
 
 module type Small = sig
   val bits : int
-
-  val min_int : int
-  val max_int : int
-  val of_string : string -> int
-  val to_string : int -> string
-  val to_hexstring : int -> string
 end
 
 module MakeSmall(S : Small) =
@@ -81,11 +75,16 @@ struct
   struct
     type t = int
     external to_int : t -> int = "%identity"
-    let min_int = S.min_int
-    let max_int = S.max_int
-    let of_string = S.of_string
-    let to_string = S.to_string
-    let to_hexstring = S.to_hexstring
+
+    let to_string i = Printf.sprintf "%d" i
+    let to_hexstring i = let m = 1 lsl S.bits in
+                         Printf.sprintf "%x" ((i + m) mod m)
+    let max_int = pred (1 lsl pred S.bits)
+    let min_int = -(1 lsl pred S.bits)
+    let of_string s =
+      match int_of_string_opt s with
+      | Some i when i >= min_int && i <= max_int -> i
+      | _ -> Printf.ksprintf failwith "Int%d.of_string" S.bits
 
     let add : t -> t -> t = fun x y -> trunc (x + y)
     let sub : t -> t -> t = fun x y -> trunc (x - y)
@@ -113,8 +112,8 @@ struct
   end
   include Basics
   module Infix = MakeInfix(Basics)
-  let pp fmt x = Format.fprintf fmt "%s" (S.to_string x)
-  let pp_hex fmt x = Format.fprintf fmt "%s" (S.to_hexstring x)
+  let pp fmt x = Format.fprintf fmt "%s" (to_string x)
+  let pp_hex fmt x = Format.fprintf fmt "%s" (to_hexstring x)
   let neg = fun x -> trunc (- x)
   let abs = fun x -> trunc (abs x)
   let of_int64 = fun x -> trunc (Int64.to_int x)
@@ -128,29 +127,11 @@ external format_int : string -> int -> string = "caml_format_int"
 module Int8 = MakeSmall(
 struct
   let bits = 8
-
-  let to_string i = Printf.sprintf "%d" i
-  let to_hexstring i = Printf.sprintf "%x" ((i + 0x100) mod 0x100)
-  let max_int = 0x7f
-  let min_int = -0x80
-  let of_string s = let i = int_of_string s in
-                    if i < min_int || i > max_int
-                    then failwith "Int8.of_string"
-                    else i
 end)
 
 module Int16 = MakeSmall(
 struct
   let bits = 16
-
-  let to_string i = Printf.sprintf "%d" i
-  let to_hexstring i = Printf.sprintf "%x" ((i + 0x10000) mod 0x10000)
-  let max_int = 0x7fff
-  let min_int = -0x8000
-  let of_string s = let i = int_of_string s in
-                    if i < min_int || i > max_int
-                    then failwith "Int8.of_string"
-                    else i
 end)
 
 module Int =

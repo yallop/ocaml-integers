@@ -37,16 +37,4 @@ CAMLextern value integers_copy_uint64(uint64_t u);
 #define Int8_val(V) ((int8_t)(Int_val(V)))
 #define Int16_val(V) ((int16_t)(Int_val(V)))
 
-static int parse_digit(char c)
-{
-  if (c >= '0' && c <= '9')
-    return c - '0';
-  else if (c >= 'A' && c <= 'F')
-    return c - 'A' + 10;
-  else if (c >= 'a' && c <= 'f')
-    return c - 'a' + 10;
-  else
-    return -1;
-}
-
 #endif /* INTEGERS_UNSIGNED_STUBS_H */
