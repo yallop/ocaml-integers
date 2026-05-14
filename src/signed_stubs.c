@@ -19,10 +19,6 @@
 #define INT_SMALL_DECLS(BITS)                                               \
   /* of_string : string -> t */                                             \
   extern value integers_int ## BITS ## _of_string(value a);                 \
-  /* to_string : t -> string */                                             \
-  extern value integers_int ## BITS ## _to_string(value a);                 \
-  /* max : unit -> t */                                                     \
-  extern value integers_int ## BITS ## _max(value a);
 
 INT_SMALL_DECLS(8)
 INT_SMALL_DECLS(16)
@@ -94,39 +90,7 @@ INT_SMALL_DECLS(16)
   /* of_string : string -> t */                                              \
   INT_OF_STRING(BITS, Integers_val_int ## BITS)                              \
                                                                              \
-  /* to_string : t -> string */                                              \
-  value integers_int ## BITS ## _to_string(value a)                          \
-  {                                                                          \
-    char buf[BUF_SIZE(TYPE(BITS))];                                          \
-    if (snprintf(buf, sizeof(buf), "%d",                                     \
-                 (int)Int ## BITS ##_val(a)) < 0)                            \
-      caml_failwith("Int" #BITS ".to_string");                               \
-    else                                                                     \
-      return caml_copy_string(buf);                                          \
-  }                                                                          \
-                                                                             \
-  /* to_hexstring : t -> string */                                           \
-  value integers_int ## BITS ## _to_hexstring(value a)                       \
-  {                                                                          \
-    char buf[BUF_SIZE(TYPE(BITS))];                                          \
-    if (snprintf(buf, sizeof(buf), "%x",                                     \
-                 (unsigned)(UTYPE(BITS))Int ## BITS ##_val(a)) < 0)          \
-      caml_failwith("Int" #BITS ".to_hexstring");                            \
-    else                                                                     \
-      return caml_copy_string(buf);                                          \
-  }                                                                          \
-                                                                             \
-  /* max : unit -> t */                                                      \
-  value integers_int ## BITS ## _max(value unit)                             \
-  {                                                                          \
-    return Integers_val_int ## BITS(~(1 << (BITS - 1)));                     \
-  }                                                                          \
-                                                                             \
-  /* min : unit -> t */                                                      \
-  value integers_int ## BITS ## _min(value unit)                             \
-  {                                                                          \
-    return Integers_val_int ## BITS((- 1) << (BITS - 1));                    \
-  }
+
 
 INT_SMALL_DEFS(8)
 INT_SMALL_DEFS(16)

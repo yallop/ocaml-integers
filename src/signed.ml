@@ -65,8 +65,8 @@ end
 module type Small = sig
   val bits : int
 
-  val min : unit -> int
-  val max : unit -> int
+  val min_int : int
+  val max_int : int
   val of_string : string -> int
   val to_string : int -> string
   val to_hexstring : int -> string
@@ -81,8 +81,8 @@ struct
   struct
     type t = int
     external to_int : t -> int = "%identity"
-    let min_int = S.min ()
-    let max_int = S.max ()
+    let min_int = S.min_int
+    let max_int = S.max_int
     let of_string = S.of_string
     let to_string = S.to_string
     let to_hexstring = S.to_hexstring
@@ -129,22 +129,28 @@ module Int8 = MakeSmall(
 struct
   let bits = 8
 
-  external of_string : string -> int = "integers_int8_of_string"
-  external to_string : int -> string = "integers_int8_to_string"
-  external to_hexstring : int -> string = "integers_int8_to_hexstring"
-  external max : unit -> int = "integers_int8_max"
-  external min : unit -> int = "integers_int8_min"
+  let to_string i = Printf.sprintf "%d" i
+  let to_hexstring i = Printf.sprintf "%x" ((i + 0x100) mod 0x100)
+  let max_int = 0x7f
+  let min_int = -0x80
+  let of_string s = let i = int_of_string s in
+                    if i < min_int || i > max_int
+                    then failwith "Int8.of_string"
+                    else i
 end)
 
 module Int16 = MakeSmall(
 struct
   let bits = 16
 
-  external of_string : string -> int = "integers_int16_of_string"
-  external to_string : int -> string = "integers_int16_to_string"
-  external to_hexstring : int -> string = "integers_int16_to_hexstring"
-  external max : unit -> int = "integers_int16_max"
-  external min : unit -> int = "integers_int16_min"
+  let to_string i = Printf.sprintf "%d" i
+  let to_hexstring i = Printf.sprintf "%x" ((i + 0x10000) mod 0x10000)
+  let max_int = 0x7fff
+  let min_int = -0x8000
+  let of_string s = let i = int_of_string s in
+                    if i < min_int || i > max_int
+                    then failwith "Int8.of_string"
+                    else i
 end)
 
 module Int =
