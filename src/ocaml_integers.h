@@ -26,9 +26,15 @@ CAMLextern value integers_copy_uint64(uint64_t u);
 #define Integers_val_uint8(t) ((Val_int((uint8_t)t)))
 #define Integers_val_uint16(t) ((Val_int((uint16_t)t)))
 
+#define Integers_val_int8(t) ((Val_int((int8_t)t)))
+#define Integers_val_int16(t) ((Val_int((int16_t)t)))
+
 #define Uint8_val(V) ((uint8_t)(Int_val(V)))
 #define Uint16_val(V) ((uint16_t)(Int_val(V)))
 #define Uint32_val(V) (*((uint32_t *) Data_custom_val(V)))
 #define Uint64_val(V) (*((uint64_t *) Data_custom_val(V)))
+
+#define Int8_val(V) ((int8_t)(Int_val(V)))
+#define Int16_val(V) ((int16_t)(Int_val(V)))
 
 #endif /* INTEGERS_UNSIGNED_STUBS_H */
