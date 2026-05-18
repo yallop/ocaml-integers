@@ -1,3 +1,9 @@
+v0.8.0 2026-05-18
+-----------------
+
+* add Signed.Int8 and Signed.Int16 modules (@tmcgilchrist, @brendanzab, @zbaylin, @yallop, #54)
+* improve top-level printer installation (@brendanzab, #52)
+
 v0.7.0 2022-03-23
 -----------------
 
