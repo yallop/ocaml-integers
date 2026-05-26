@@ -38,6 +38,7 @@ module type Basics = sig
   val mul : t -> t -> t
   val div : t -> t -> t
   val rem : t -> t -> t
+  val lognot : t -> t
   val logand : t -> t -> t
   val logor : t -> t -> t
   val logxor : t -> t -> t
@@ -54,6 +55,7 @@ struct
   let ( * ) = mul
   let (/) = div
   let (mod) = rem
+  let lnot = lognot
   let (land) = logand
   let (lor) = logor
   let (lxor) = logxor

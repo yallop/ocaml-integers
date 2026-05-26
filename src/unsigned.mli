@@ -26,6 +26,9 @@ module type Infix = sig
   val (mod) : t -> t -> t
   (** Integer remainder.  See {!rem}. *)
 
+  val lnot : t -> t
+  (** Bitwise logical negation.  See {!lognot}. *)
+
   val (land) : t -> t -> t
   (** Bitwise logical and.  See {!logand}. *)
 
