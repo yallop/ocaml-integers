@@ -59,6 +59,7 @@ module type Infix = sig
   val ( * ) : t -> t -> t
   val (/) : t -> t -> t
   val (mod) : t -> t -> t
+  val lnot : t -> t
   val (land) : t -> t -> t
   val (lor) : t -> t -> t
   val (lxor) : t -> t -> t
@@ -72,22 +73,6 @@ module type S = sig
   include Extras with type t := t
 
   module Infix : Infix with type t := t
-end
-
-
-module MakeInfix (B : Basics) =
-struct
-  open B
-  let (+) = add
-  let (-) = sub
-  let ( * ) = mul
-  let (/) = div
-  let (mod) = rem
-  let (land) = logand
-  let (lor) = logor
-  let (lxor) = logxor
-  let (lsl) = shift_left
-  let (lsr) = shift_right
 end
 
 
@@ -106,6 +91,24 @@ struct
   let of_string_opt (s : string) = try Some (of_string s) with Failure _ -> None
   let pp fmt x = Format.fprintf fmt "%s" (to_string x)
   let pp_hex fmt x = Format.fprintf fmt "%s" (to_hexstring x)
+end
+
+
+module MakeInfix (B : Basics) =
+struct
+  open B
+  open Extras(B)
+  let (+) = add
+  let (-) = sub
+  let ( * ) = mul
+  let (/) = div
+  let (mod) = rem
+  let lnot = lognot
+  let (land) = logand
+  let (lor) = logor
+  let (lxor) = logxor
+  let (lsl) = shift_left
+  let (lsr) = shift_right
 end
 
 external format_int : string -> int -> string = "caml_format_int"
